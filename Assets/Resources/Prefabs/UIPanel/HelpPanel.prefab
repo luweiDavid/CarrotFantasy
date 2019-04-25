@@ -2546,7 +2546,7 @@ GameObject:
   - component: {fileID: 4761774668230764319}
   - component: {fileID: 7297003314409352897}
   - component: {fileID: 1986064943511197242}
-  - component: {fileID: 7393117575310559991}
+  - component: {fileID: 1042998584}
   m_Layer: 5
   m_Name: ScrollView
   m_TagString: Untagged
@@ -2614,35 +2614,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4956818691679067486}
   m_CullTransparentMesh: 0
---- !u!114 &7393117575310559991
+--- !u!114 &1042998584
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4956818691679067486}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cbeb39c46b84a14d9afe373f633c353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
+  CanMoveMultiPages: 1
+  Speed: 0.8
+  EaseEffect: 15
 --- !u!1 &4985213857897843625
 GameObject:
   m_ObjectHideFlags: 0

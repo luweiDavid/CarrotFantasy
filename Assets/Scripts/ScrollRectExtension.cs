@@ -8,7 +8,7 @@ using DG.Tweening;
 /// <summary>
 /// 实现Item的左右滑动页面效果，可以一次滑动一页，也可以一次滑动多页
 /// </summary>
-public class ScrollRectExtension : MonoBehaviour, IBeginDragHandler,IEndDragHandler
+public class ScrollRectExtension : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 {
     private ScrollRect m_scrollRect;
     private RectTransform m_contentRectTr;
@@ -17,7 +17,7 @@ public class ScrollRectExtension : MonoBehaviour, IBeginDragHandler,IEndDragHand
     private float leftPadding;
     private float rightPadding;
     private float topPadding;
-    private float bottomPadding; 
+    private float bottomPadding;
     private Vector2 cellSize;
     private float xSpacing;
     private float ySpacing;
@@ -35,10 +35,11 @@ public class ScrollRectExtension : MonoBehaviour, IBeginDragHandler,IEndDragHand
     private int itemCount;
     private float[] valueArray;
 
-    public bool CanMoveMultiPages = true;
-    private bool IsDragEnd = false;
-
-    private float speed = 5.5f;
+    [Tooltip("是否可以滑动多页")]
+    public bool CanMoveMultiPages = true;  
+    [Tooltip("缓动速度")]
+    public float Speed = 0.8f;
+    public Ease EaseEffect = Ease.Linear;
 
     private void Awake()
     {
@@ -72,16 +73,7 @@ public class ScrollRectExtension : MonoBehaviour, IBeginDragHandler,IEndDragHand
         } 
     } 
 
-    void Update() {
-        if (IsDragEnd == true)
-        {
-            m_scrollRect.horizontalNormalizedPosition = Mathf.Lerp(m_scrollRect.horizontalNormalizedPosition, valueArray[curItemIndex], speed);
-            if ((m_scrollRect.horizontalNormalizedPosition - valueArray[curItemIndex]) < 0.005f) {
-                m_scrollRect.horizontalNormalizedPosition = valueArray[curItemIndex];
-                IsDragEnd = false;
-            } 
-        }
-
+    void Update() { 
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -91,10 +83,7 @@ public class ScrollRectExtension : MonoBehaviour, IBeginDragHandler,IEndDragHand
     }
 
     public void OnEndDrag(PointerEventData eventData)
-    {
-        if (IsDragEnd) {
-            return;
-        }
+    { 
         mouseEndX = Input.mousePosition.x;
         //offset小于0：左移，  offset大于0： 右移
         float offset = mouseEndX - mouseBeginX;
@@ -105,18 +94,13 @@ public class ScrollRectExtension : MonoBehaviour, IBeginDragHandler,IEndDragHand
                 if ((Mathf.Abs(offset) - firstItemMoveDis) > 0)
                 {
                     int moveCount = Mathf.FloorToInt((Mathf.Abs(offset) - firstItemMoveDis) / oneItemMoveDis) + 1;
-                    if (curItemIndex >= itemCount - 1)
+                    if (curItemIndex > itemCount - 1)
                     {
                         return;
                     }
                     curItemIndex += moveCount;
-
-                    IsDragEnd = true;
-                }
-                else {
-                    IsDragEnd = false;
-                    m_scrollRect.horizontalNormalizedPosition = valueArray[curItemIndex];
-                }
+                    curItemIndex = curItemIndex > (itemCount - 1) ? (itemCount - 1) : curItemIndex; 
+                } 
             }
         }
         else {
@@ -125,23 +109,34 @@ public class ScrollRectExtension : MonoBehaviour, IBeginDragHandler,IEndDragHand
                 if ((Mathf.Abs(offset) - firstItemMoveDis) > 0)
                 {
                     int moveCount = Mathf.FloorToInt((Mathf.Abs(offset) - firstItemMoveDis) / oneItemMoveDis) + 1;
-                    if (curItemIndex <= 0)
+                    if (curItemIndex < 0)
                     {
                         return;
                     }
                     curItemIndex -= moveCount;
+                    curItemIndex = curItemIndex < 0 ? 0 : curItemIndex; 
+                } 
+            } 
+        } 
 
-                    IsDragEnd = true;
-                }
-                else
-                {
-                    IsDragEnd = false;
-                    m_scrollRect.horizontalNormalizedPosition = valueArray[curItemIndex];
-                }
-            }
-
-        }
+        DOTween.To(()=>m_scrollRect.horizontalNormalizedPosition, lerpV => m_scrollRect.horizontalNormalizedPosition = lerpV,
+            valueArray[curItemIndex], Speed).SetEase(EaseEffect);
     }
 
-    
+    public void MoveToNextPage() {
+        curItemIndex += 1;
+        curItemIndex = curItemIndex > (itemCount - 1) ? (itemCount - 1) : curItemIndex;
+
+        DOTween.To(() => m_scrollRect.horizontalNormalizedPosition, lerpV => m_scrollRect.horizontalNormalizedPosition = lerpV,
+            valueArray[curItemIndex], Speed).SetEase(EaseEffect);
+    }
+
+    public void MoveToPrePage() {
+        curItemIndex -= 1;
+        curItemIndex = curItemIndex < 0 ? 0 : curItemIndex;
+
+        DOTween.To(() => m_scrollRect.horizontalNormalizedPosition, lerpV => m_scrollRect.horizontalNormalizedPosition = lerpV,
+            valueArray[curItemIndex], Speed).SetEase(EaseEffect);
+    }
+
 }

@@ -60,7 +60,33 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Factory\AudioClipFactory.cs" />
+    <Compile Include="Assets\Scripts\Factory\BaseFactory.cs" />
+    <Compile Include="Assets\Scripts\Factory\BaseResFactory.cs" />
+    <Compile Include="Assets\Scripts\Factory\GameFactory.cs" />
+    <Compile Include="Assets\Scripts\Factory\IBaseFactory.cs" />
+    <Compile Include="Assets\Scripts\Factory\RuntimeAnimatorCtrlFactory.cs" />
+    <Compile Include="Assets\Scripts\Factory\SpriteFactory.cs" />
+    <Compile Include="Assets\Scripts\Factory\UIFactory.cs" />
+    <Compile Include="Assets\Scripts\Factory\UIPanelFactory.cs" />
+    <Compile Include="Assets\Scripts\Game\GameController.cs" />
+    <Compile Include="Assets\Scripts\Game\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\AudioManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\FactoryManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\PlayerManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
+    <Compile Include="Assets\Scripts\Scene\BaseSceneState.cs" />
+    <Compile Include="Assets\Scripts\Scene\BossModelSceneState.cs" />
+    <Compile Include="Assets\Scripts\Scene\GameBossOptionSceneState.cs" />
+    <Compile Include="Assets\Scripts\Scene\GameNormalOptionSceneState.cs" />
+    <Compile Include="Assets\Scripts\Scene\IBaseSceneState.cs" />
+    <Compile Include="Assets\Scripts\Scene\MainSceneState.cs" />
+    <Compile Include="Assets\Scripts\Scene\MonsterNestSceneState.cs" />
+    <Compile Include="Assets\Scripts\Scene\NormalModelSceneState.cs" />
+    <Compile Include="Assets\Scripts\Scene\StartLoadSceneState.cs" />
     <Compile Include="Assets\Scripts\ScrollRectExtension.cs" />
+    <Compile Include="Assets\Scripts\Test\Singleton.cs" />
+    <Compile Include="Assets\Scripts\Tools\MonoSingleton.cs" />
     <None Include="Assets\DOTween\readme.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>G:/Homework/CarrotFantasy/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
