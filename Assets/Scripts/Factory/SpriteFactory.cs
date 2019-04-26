@@ -6,6 +6,10 @@ public class SpriteFactory : BaseResFactory<Sprite>
 {
     public Dictionary<string, Sprite> spriteDic = new Dictionary<string, Sprite>();
 
+    public SpriteFactory() {
+        LoadPath = "Pictures/";
+    }
+
     public override Sprite GetRes(string name)
     {
         Sprite sprite = null;

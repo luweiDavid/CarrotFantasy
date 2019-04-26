@@ -4,18 +4,10 @@ using UnityEngine;
 
 public class GameController : MonoSingleton<GameController>
 {
-    private void Awake()
+    public override void Awake()
     {
-        
-    }
+        base.Awake();
 
-    private void Start()
-    {
-        
-    }
 
-    private void Update()
-    {
-        
     }
 }

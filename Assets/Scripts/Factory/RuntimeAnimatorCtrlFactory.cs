@@ -5,6 +5,12 @@ using UnityEngine;
 public class RuntimeAnimatorCtrlFactory : BaseResFactory<RuntimeAnimatorController>
 {
     public Dictionary<string, RuntimeAnimatorController> animatorCtrlDic = new Dictionary<string, RuntimeAnimatorController>();
+
+
+    public RuntimeAnimatorCtrlFactory() {
+        LoadPath = "Animator/AnimatorController/";
+    }
+
     public override RuntimeAnimatorController GetRes(string name)
     {
         RuntimeAnimatorController animatorCtrl = null;

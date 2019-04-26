@@ -4,5 +4,7 @@ using UnityEngine;
 
 public class UIPanelFactory : BaseFactory
 {
-   
+    public UIPanelFactory() {
+        prefabPath += "UIPanel/";
+    }  
 }

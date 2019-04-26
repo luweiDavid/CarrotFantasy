@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class UIFactory : BaseFactory
 {
-     
+    public UIFactory() {
+        prefabPath += "UI/";
+    }
+    
 }

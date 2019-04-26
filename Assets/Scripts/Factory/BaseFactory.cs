@@ -53,7 +53,7 @@ public class BaseFactory : IBaseFactory
         return itemGo;
     }
 
-    public GameObject GetGameObjRes(string itemName) {
+    private GameObject GetGameObjRes(string itemName) {
         GameObject itemGo = null;
 
         string goLoadPath = prefabPath + itemName;

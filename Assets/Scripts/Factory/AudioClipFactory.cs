@@ -5,7 +5,10 @@ using UnityEngine;
 public class AudioClipFactory : BaseResFactory<AudioClip>
 { 
     public Dictionary<string, AudioClip> clipDic = new Dictionary<string, AudioClip>();
-     
+
+    public AudioClipFactory() {
+        LoadPath = "AudioClips/";
+    }
 
     public override AudioClip GetRes(string name)
     {

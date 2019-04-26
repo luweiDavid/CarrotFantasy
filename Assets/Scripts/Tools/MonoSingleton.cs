@@ -6,12 +6,11 @@ public class MonoSingleton<T> : MonoBehaviour where T :MonoBehaviour,new()
 {
     private static T _instance;
     public static T Instance {
-        get {
-            if (_instance == null) {
-                _instance = new T();
-            }
-
+        get { 
             return _instance;
         }
-    } 
+    }
+    public virtual void Awake() {
+        _instance = this as T;
+    }
 }
