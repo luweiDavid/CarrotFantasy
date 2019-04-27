@@ -22,7 +22,7 @@ public class UIManager
     {
         if (!panelGoDic.ContainsKey(name))
         {
-            //Debug.Log(name + "   === ");
+            //Debug.Log(name + "   === "); 
             panelGoDic.Add(name, panelGo);
         }
     }
@@ -31,8 +31,7 @@ public class UIManager
     /// </summary>
     public void ClearPanelGoDic() {
         foreach (string key in panelGoDic.Keys)
-        {
-            Debug.Log(key + "   clear");
+        { 
             GameObject go = panelGoDic[key]; 
             mGameMgr.PushItem(FactoryType.UIPanel, key, go);
         }

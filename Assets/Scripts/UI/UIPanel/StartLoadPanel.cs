@@ -7,7 +7,8 @@ public class StartLoadPanel : BaseUIPanel
 {
     public override void Awake()
     {
-        base.Awake();     }
+        base.Awake();
+    }
     
     public override void __Init()
     {

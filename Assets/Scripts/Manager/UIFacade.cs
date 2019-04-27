@@ -88,21 +88,27 @@ public class UIFacade
 
     public void InitUIPanelClassDic() {
 
-        foreach (string key in mUIMgr.panelGoDic.Keys)
+        for (int i = 0; i < mUIMgr.panelGoDic.Count; i++)
         {
+            //Debug.Log(mUIMgr.panelGoDic["GameLoadPanel"]);
+            //Debug.Log(i);
+        }
+
+        foreach (string key in mUIMgr.panelGoDic.Keys)
+        { 
             GameObject go = mUIMgr.panelGoDic[key];
             go.transform.localPosition = Vector3.zero;
             go.transform.localScale = Vector3.one;
-            go.transform.SetParent(mUIRoot); 
-            BaseUIPanel uiPanel = go.GetComponent<BaseUIPanel>();
-            Debug.Log(key + "  >>");
+            go.transform.SetParent(mUIRoot);
+            BaseUIPanel uiPanel = go.GetComponent<BaseUIPanel>(); 
             if (uiPanel)
-            { 
+            {
                 uiPanel.__Init();
-                uiPanel.__Close(); 
+                uiPanel.__Close();
                 uiPanelClassDic.Add(key, uiPanel);
             }
-            else {
+            else
+            {
                 Debug.LogError("初始化UIPanelClassDic失败");
             }
         }
