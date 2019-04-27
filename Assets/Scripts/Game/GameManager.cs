@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoSingleton<GameManager>
+public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+
     [HideInInspector]
     public Transform GameObjectPoolTr;
 
@@ -12,33 +14,59 @@ public class GameManager : MonoSingleton<GameManager>
     public AudioManager audioMgr;
     public UIManager uiMgr;
 
-    public override void Awake()
+    public void Awake()
     {
-        base.Awake();
+        Instance = this;
+        
         DontDestroyOnLoad(gameObject);
         GameObjectPoolTr = transform.Find("GameObjectPool").GetComponent<Transform>();
 
         playerMgr = new PlayerManager();
         factoryMgr = new FactoryManager();
         audioMgr = new AudioManager();
-        uiMgr = new UIManager();  
+        uiMgr = new UIManager();
+
+        audioMgr.PlayBgAudio(GetAudioClip(PathConfig.Audio_Main));
     }
 
-    public Sprite GetSprite(string spritePath) {
+    
+    /// <summary>
+    /// 获取未实例化的prefab资源
+    /// </summary> 
+    public GameObject GetGoRes(FactoryType type, string path) {
+        BaseFactory factory = factoryMgr.mFactoryDic[type];
+        return factory.GetItem(path);
+    }
+
+    public void PushItem(FactoryType type, string path, GameObject item) {
+        BaseFactory factory = factoryMgr.mFactoryDic[type];
+        if (item != null) {
+            factory.PushItem(path, item);
+        }
+    }
+
+
+    public Sprite GetSprite(string spritePath)
+    {
         return factoryMgr.mSpriteFactory.GetRes(spritePath);
     }
 
-    public GameObject GetUIPanelGo(string path) {
-        UIPanelFactory panelFac = factoryMgr.mFactoryDic[FactoryType.UIPanel] as UIPanelFactory;
-        return panelFac.GetItem(path);
+    public AudioClip GetAudioClip(string audioPath)
+    {
+        return factoryMgr.mAudioClipFactory.GetRes(audioPath);
     }
 
-    public GameObject GetUIGo(string path) {  
-        UIFactory uiFac = factoryMgr.mFactoryDic[FactoryType.UI] as UIFactory; 
-        return uiFac.GetItem(path);
+    public RuntimeAnimatorController GetRuntimeAnimCtrl(string animPath)
+    {
+        return factoryMgr.mRuntimeAnimatorCtrlFactory.GetRes(animPath);
     }
 
-    public GameObject ThisGo() {
-        return this.gameObject;
+    public void SetBgAudio(bool isOpen) {
+        audioMgr.SetBgAudio(isOpen);
     }
+
+    public void SetEffectAudio(bool isOpen) {
+        audioMgr.SetEffectAudio(isOpen);
+    }
+
 }

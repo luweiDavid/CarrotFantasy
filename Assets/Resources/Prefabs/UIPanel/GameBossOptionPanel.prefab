@@ -1147,6 +1147,7 @@ GameObject:
   - component: {fileID: 6690364790346177701}
   - component: {fileID: 4240964504912672392}
   - component: {fileID: 9152769118162511925}
+  - component: {fileID: 3818524459845522563}
   m_Layer: 5
   m_Name: GameBossOptionPanel
   m_TagString: Untagged
@@ -1214,6 +1215,18 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &3818524459845522563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7338228810663550827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 680b1f351383cb1438e37c4a507b3da5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7615312896697361864
 GameObject:
   m_ObjectHideFlags: 0

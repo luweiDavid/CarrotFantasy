@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 414286966874424921}
   - component: {fileID: 5101896509738384730}
   - component: {fileID: 5528245304766033680}
+  - component: {fileID: 8976578869703696889}
   m_Layer: 5
   m_Name: GameLoadPanel
   m_TagString: Untagged
@@ -74,3 +75,15 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &8976578869703696889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9089357033751969859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f3c50e5e726fd24f84c3923cda0a163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

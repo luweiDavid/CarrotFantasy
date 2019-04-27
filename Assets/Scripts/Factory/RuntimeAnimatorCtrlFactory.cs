@@ -14,19 +14,19 @@ public class RuntimeAnimatorCtrlFactory : BaseResFactory<RuntimeAnimatorControll
     public override RuntimeAnimatorController GetRes(string name)
     {
         RuntimeAnimatorController animatorCtrl = null;
-        LoadPath += name;
+        string path = LoadPath + name;
         if (animatorCtrlDic.ContainsKey(name))
         {
             animatorCtrl = animatorCtrlDic[name];
         }
         else {
-            animatorCtrl = Resources.Load<RuntimeAnimatorController>(LoadPath);
+            animatorCtrl = Resources.Load<RuntimeAnimatorController>(path);
             if (animatorCtrl != null) {
                 animatorCtrlDic.Add(name, animatorCtrl);
             }
         }
         if (animatorCtrl == null) {
-            Debug.LogError("资源加载失败，路径：" + LoadPath);
+            Debug.LogError("资源加载失败，路径：" + path);
         }
         return animatorCtrl;
     }

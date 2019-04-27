@@ -10,7 +10,10 @@ public class AudioManager
     private AudioSource mBgAudioSrc;
     private AudioSource mAudioEffectSrc;
 
-    public void Init() {
+    private bool mIsOpenBgAudio = true;
+    private bool mIsOpenEffectAudio = true;
+
+    public AudioManager() {
         audioSrcArray = GameObject.Find("GameManager").GetComponents<AudioSource>();
 
         mBgAudioSrc = audioSrcArray[0];
@@ -18,6 +21,9 @@ public class AudioManager
     }
 
     public void PlayBgAudio(AudioClip _clip) {
+        if (!mIsOpenBgAudio) {
+            return;
+        }
         if (!mBgAudioSrc.isPlaying || mBgAudioSrc.clip != _clip) {
             mBgAudioSrc.clip = _clip;
             mBgAudioSrc.Play();
@@ -37,6 +43,42 @@ public class AudioManager
 
     public void SetAudioEffectVolume(float volume) {
         mAudioEffectSrc.volume = volume;
+    }
+
+    public void SetBgAudio(bool isOpen) {
+        mIsOpenBgAudio = isOpen;
+        if (isOpen)
+        {
+            if (!mBgAudioSrc.isActiveAndEnabled)
+            {
+                mBgAudioSrc.enabled = true;
+            }
+        }
+        else {
+            if (mBgAudioSrc.isActiveAndEnabled)
+            {
+                mBgAudioSrc.enabled = false;
+            }
+        }
+    }
+
+    public void SetEffectAudio(bool isOpen)
+    {
+        mIsOpenEffectAudio = isOpen;
+        if (isOpen)
+        {
+            if (!mAudioEffectSrc.isActiveAndEnabled)
+            {
+                mAudioEffectSrc.enabled = true;
+            }
+        }
+        else
+        {
+            if (mAudioEffectSrc.isActiveAndEnabled)
+            {
+                mAudioEffectSrc.enabled = false;
+            }
+        }
     }
 
 }

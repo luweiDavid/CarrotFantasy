@@ -2,17 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterNestPanel : MonoBehaviour
+public class MonsterNestPanel : BaseUIPanel
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Awake()
     {
-        
+        base.Awake();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void __Init()
     {
-        
+        base.__Init();
+         
+    }
+    public override void __Enter()
+    {
+        base.__Enter();
+    }
+
+    public override void __Update()
+    {
+        base.__Update();
+    }
+    public override void __Close()
+    {
+        base.__Close();
+    }
+
+    public override void __Exit()
+    {
+        base.__Exit();
     }
 }

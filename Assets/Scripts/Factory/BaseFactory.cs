@@ -14,8 +14,18 @@ public class BaseFactory : IBaseFactory
 
     public BaseFactory() {
         prefabPath = "Prefabs/";
+
+        goResDic.Clear();
+        foreach (var item in goPoolDic.Values)
+        {
+            GameObject.Destroy(item.Pop());
+        }
+        goPoolDic.Clear();
     }
 
+    /// <summary>
+    /// 将实例化的物体放回工厂
+    /// </summary> 
     public void PushItem(string itemName, GameObject item)
     { 
         if (goPoolDic.ContainsKey(itemName))

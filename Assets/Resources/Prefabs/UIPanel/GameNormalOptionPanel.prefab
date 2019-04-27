@@ -128,6 +128,7 @@ GameObject:
   - component: {fileID: 4926483736417541342}
   - component: {fileID: 6122185423013370060}
   - component: {fileID: 3221966906310545008}
+  - component: {fileID: 2804586176481475987}
   m_Layer: 5
   m_Name: GameNormalOptionPanel
   m_TagString: Untagged
@@ -194,6 +195,18 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &2804586176481475987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2641242688386246043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 909f436449a9863489df11d5cef3f042, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5070396418037093778
 GameObject:
   m_ObjectHideFlags: 0

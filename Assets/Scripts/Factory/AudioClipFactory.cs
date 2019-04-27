@@ -13,19 +13,19 @@ public class AudioClipFactory : BaseResFactory<AudioClip>
     public override AudioClip GetRes(string name)
     {
         AudioClip clip = null;
-        LoadPath += name;
+        string path = LoadPath + name;
         if (clipDic.ContainsKey(name))
         {
             clip = clipDic[name];
         }
         else {
-            clip = Resources.Load<AudioClip>(LoadPath);
+            clip = Resources.Load<AudioClip>(path);
             if (clip != null) {
                 clipDic.Add(name, clip);
             }
         }
         if (clip == null) {
-            Debug.LogError("资源加载失败，路径：" + LoadPath);
+            Debug.LogError("资源加载失败，路径：" + path);
         }
         return clip;
     }

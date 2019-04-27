@@ -4,5 +4,26 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/StartLoadScene.unity
+    guid: 25998d0b314c4af46aea7ee84c7958f8
+  - enabled: 1
+    path: Assets/Scenes/MainScene.unity
+    guid: bd0f6a8830e7d87469e0a18ef1a261c9
+  - enabled: 1
+    path: Assets/Scenes/MonsterNestScene.unity
+    guid: 8fa79f0ebdc4c8249b76224360d4fe20
+  - enabled: 1
+    path: Assets/Scenes/BossModelScene.unity
+    guid: cfac272e2430ba84ca19f3ed32ce3853
+  - enabled: 1
+    path: Assets/Scenes/GameBossOptionScene.unity
+    guid: f0af312852146724a82e466708e2e374
+  - enabled: 1
+    path: Assets/Scenes/GameNormalOptionScene.unity
+    guid: b0c6f61870084554fb1315c04937b8c5
+  - enabled: 1
+    path: Assets/Scenes/NormalModelScene.unity
+    guid: a48db33405e171244b682d9b0d8b841f
   m_configObjects: {}

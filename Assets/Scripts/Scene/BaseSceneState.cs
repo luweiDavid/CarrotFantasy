@@ -9,13 +9,19 @@ using UnityEngine;
 /// </summary>
 public class BaseSceneState : IBaseSceneState
 {
-    public void EnterScene()
+    protected UIFacade mUIFacade;
+    public string mSceneName { get; set; }
+
+    public BaseSceneState(UIFacade uif) { 
+        mUIFacade = uif;
+    }
+    public virtual void EnterScene()
     {
-        throw new System.NotImplementedException();
+
     }
 
-    public void ExitScene()
+    public virtual void ExitScene()
     {
-        throw new System.NotImplementedException();
+        mUIFacade.ClearUIPanelGo();
     }
 }
