@@ -18,8 +18,7 @@ public class BaseSceneState : IBaseSceneState
     public virtual void EnterScene()
     {
 
-    }
-
+    } 
     public virtual void ExitScene()
     {
         mUIFacade.ClearUIPanelGo();

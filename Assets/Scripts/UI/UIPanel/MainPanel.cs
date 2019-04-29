@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,8 +14,7 @@ public class MainPanel : BaseUIPanel
     private Button mBtnHelp;
     private Button mBtnExitGame;
 
-    private Animator mCarrotAnim;
-
+    private Animator mCarrotAnim; 
 
     public override void Awake()
     {
@@ -32,12 +32,12 @@ public class MainPanel : BaseUIPanel
         mBtnExitGame = mPanelGo.transform.Find("Btn_ExitGame").GetComponent<Button>();
         AddBtnsListener();
 
-        //mCarrotAnim = mPanelGo.transform.Find("Emp_Carrot").GetComponent<Animator>();
-        //mCarrotAnim.SetTrigger("Grow");
+        mCarrotAnim = mPanelGo.transform.Find("Emp_Carrot").GetComponent<Animator>();
+        mCarrotAnim.Play("CarrotGrow"); 
     }
     public override void __Enter()
     {
-        base.__Enter();
+        base.__Enter(); 
     }
 
     public override void __Update()
@@ -55,19 +55,22 @@ public class MainPanel : BaseUIPanel
     }
 
     private void OnBtnNormal() {
-        if (mUIFacade.mCurScene.GetType() != typeof(NormalModelSceneState)) {
-            mUIFacade.ChangeSceneState(new NormalModelSceneState(mUIFacade));
+        if (mUIFacade.mCurScene.GetType() != typeof(GameNormalOptionSceneState)) {
+            mUIFacade.ChangeSceneState(new GameNormalOptionSceneState(mUIFacade));
         }
     }
 
     private void OnBtnBoss()
     {
-        if (mUIFacade.mCurScene.GetType() != typeof(BossModelSceneState)){
-            mUIFacade.ChangeSceneState(new BossModelSceneState(mUIFacade));
+        if (mUIFacade.mCurScene.GetType() != typeof(GameBossOptionSceneState)){
+            mUIFacade.ChangeSceneState(new GameBossOptionSceneState(mUIFacade));
         }
     }
 
-    private void OnBtnMonsterNest() { }
+    private void OnBtnMonsterNest() {
+
+
+    }
 
     private void OnBtnSet() {
         CloseSelf();
@@ -77,11 +80,16 @@ public class MainPanel : BaseUIPanel
         CloseSelf();
         mUIFacade.OpenPanel(NameConfig.PanelName_Help);
 
-    }
+    } 
+
     private void OnBtnExitGame() {
 #if UNITY_EDITOR
         Application.Quit();
 #endif
-    }
+    } 
 
+    public override void __Close()
+    {
+        base.__Close();
+    }
 }

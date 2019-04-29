@@ -87,16 +87,14 @@ public class ScrollRectExtension : MonoBehaviour, IBeginDragHandler, IEndDragHan
         } 
     } 
 
+    /// <summary>
+    /// 
+    /// </summary> 
     public void AddScrollValueChangedAction(UnityAction<Vector2> cb) {
-        try
-        {
-            m_scrollRect.onValueChanged.AddListener(cb);
+        if (m_scrollRect == null) {
+            m_scrollRect = transform.GetComponent<ScrollRect>(); 
         }
-        catch (Exception e)
-        {
-            Debug.Log(m_scrollRect);
-            Debug.Log(e);
-        } 
+        m_scrollRect.onValueChanged.AddListener(cb);
     }
 
     public void OnBeginDrag(PointerEventData eventData)

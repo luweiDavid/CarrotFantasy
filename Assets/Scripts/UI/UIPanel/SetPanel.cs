@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,8 +29,7 @@ public class SetPanel : BaseUIPanel
     private Text[] mStatisticTexts;
 
     private bool mIsOpenBgAudio = true;
-    private bool mIsOpenEffectAudio = true;
-
+    private bool mIsOpenEffectAudio = true; 
     #endregion
 
     public override void Awake()
@@ -53,8 +53,8 @@ public class SetPanel : BaseUIPanel
         mBtnBGAudio = mPanelGo.transform.Find("OptionPage/Btn_BGAudio").GetComponent<Button>();
         mBtnEffectAudio = mPanelGo.transform.Find("OptionPage/Btn_EffectAudio").GetComponent<Button>();
         mBtnReset = mPanelGo.transform.Find("OptionPage/Btn_Reset").GetComponent<Button>();
-        mBtnClose = mPanelGo.transform.Find("Panel_Reset/Btn_Certain").GetComponent<Button>();
-        mBtnCertain = mPanelGo.transform.Find("Panel_Reset/Btn_Close").GetComponent<Button>();
+        mBtnClose = mPanelGo.transform.Find("Panel_Reset/Btn_Close").GetComponent<Button>();
+        mBtnCertain = mPanelGo.transform.Find("Panel_Reset/Btn_Certain").GetComponent<Button>();
 
         mBtnBGAudioImg = mPanelGo.transform.Find("OptionPage/Btn_BGAudio").GetComponent<Image>();
         mBtnEffectAudioImg = mPanelGo.transform.Find("OptionPage/Btn_EffectAudio").GetComponent<Image>();
@@ -67,7 +67,6 @@ public class SetPanel : BaseUIPanel
         mAudioSprites[2] = mUIFacade.GetSprite(PathConfig.Sprite_SetPanel_OptionPage + "setting02-hd_6");
         mAudioSprites[3] = mUIFacade.GetSprite(PathConfig.Sprite_SetPanel_OptionPage + "setting02-hd_11");
 
-
         //天坑在此， 使用数组获取
         mStatisticTexts = new Text[7];
         for (int i = 0; i < mStatisticTexts.Length; i++)
@@ -76,10 +75,11 @@ public class SetPanel : BaseUIPanel
             mStatisticTexts[i] = mPanelGo.transform.Find(str).GetComponent<Text>();
             mStatisticTexts[i].text = "0";
         } 
-    }
+    } 
+
     public override void __Enter()
     {
-        base.__Enter();
+        base.__Enter(); 
         OnBtnOption();
     }
 
@@ -96,14 +96,14 @@ public class SetPanel : BaseUIPanel
         mBtnBGAudio.onClick.AddListener(OnBtnBGAudio);
         mBtnEffectAudio.onClick.AddListener(OnBtnEffectAudio);
         mBtnReset.onClick.AddListener(OnBtnReset);
-        mBtnClose.onClick.AddListener(OnBtnReset);
-        mBtnCertain.onClick.AddListener(OnBtnReset);
+        mBtnClose.onClick.AddListener(OnBtnClose);
+        mBtnCertain.onClick.AddListener(OnBtnCertain);
     }
 
     private void OnBtnReturn()
     {
         CloseSelf();
-        mUIFacade.OpenPanel(NameConfig.PanelName_Main);
+        mUIFacade.OpenPanel(NameConfig.PanelName_Main); 
     }
     private void OnBtnOption()
     {
@@ -117,6 +117,17 @@ public class SetPanel : BaseUIPanel
         mStatisticsPageGo.SetActive(true);
         mProducerPageGo.SetActive(false);
     }
+    private void ShowStatistic() {
+        PlayerManager playerManager = mUIFacade.mPlayerMgr;
+        mStatisticTexts[0].text = playerManager.adventrueModelNum.ToString();
+        mStatisticTexts[1].text = playerManager.burriedLevelNum.ToString();
+        mStatisticTexts[2].text = playerManager.bossModelNum.ToString();
+        mStatisticTexts[3].text = playerManager.coin.ToString();
+        mStatisticTexts[4].text = playerManager.killMonsterNum.ToString();
+        mStatisticTexts[5].text = playerManager.killBossNum.ToString();
+        mStatisticTexts[6].text = playerManager.clearItemNum.ToString();
+    }
+
     private void OnBtnProducer()
     {
         mOptionPageGo.SetActive(false);
@@ -147,24 +158,25 @@ public class SetPanel : BaseUIPanel
             mBtnEffectAudioImg.sprite = mAudioSprites[3];
         }
     }
-    private void OnBtnReset() {
-        //mPanelResetGo.SetActive(true);
 
+    /// <summary>
+    /// 重置游戏按钮
+    /// </summary>
+    private void OnBtnReset() { 
+        mPanelResetGo.SetActive(true); 
     }
     private void OnBtnClose()
     {
-        //mPanelResetGo.SetActive(false);
-
+        mPanelResetGo.SetActive(false); 
     }
     private void OnBtnCertain()
     {
-        
-
+         //重置游戏 TODO
     }
 
     public override void __Close()
     {
-        base.__Close(); 
+        base.__Close();
     }
 
     public override void __Exit()

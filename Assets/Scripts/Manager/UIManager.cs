@@ -22,7 +22,6 @@ public class UIManager
     {
         if (!panelGoDic.ContainsKey(name))
         {
-            //Debug.Log(name + "   === "); 
             panelGoDic.Add(name, panelGo);
         }
     }

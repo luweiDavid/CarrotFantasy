@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// 获取未实例化的prefab资源
     /// </summary> 
-    public GameObject GetGoRes(FactoryType type, string path) {
+    public GameObject GetItem(FactoryType type, string path) {
         BaseFactory factory = factoryMgr.mFactoryDic[type];
         return factory.GetItem(path);
     }

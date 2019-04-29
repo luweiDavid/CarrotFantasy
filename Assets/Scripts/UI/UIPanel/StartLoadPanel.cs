@@ -18,7 +18,7 @@ public class StartLoadPanel : BaseUIPanel
     }
     public override void __Enter()
     {
-        base.__Enter();
+        mPanelGo.SetActive(true);
     }
 
     public override void __Update()
@@ -37,7 +37,7 @@ public class StartLoadPanel : BaseUIPanel
     }
 
     public void LoadNextScene()
-    {
+    { 
         mUIFacade.ChangeSceneState(new MainSceneState(mUIFacade));
     }
 }

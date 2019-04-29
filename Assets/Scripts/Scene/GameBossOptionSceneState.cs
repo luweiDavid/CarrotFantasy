@@ -8,4 +8,6 @@ public class GameBossOptionSceneState : BaseSceneState
     {
         mSceneName = NameConfig.SceneName_GameBossOption;
     }
+
+
 }

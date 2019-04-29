@@ -12,9 +12,14 @@ public class GameNormalOptionSceneState : BaseSceneState
     public override void EnterScene()
     {
         base.EnterScene();
-
+        mUIFacade.AddUIPanelGo(NameConfig.PanelName_GameNormalOption);
+        mUIFacade.AddUIPanelGo(NameConfig.PanelName_GameNormalBigLevel);
+        mUIFacade.AddUIPanelGo(NameConfig.PanelName_GameNormalLevel); 
 
         mUIFacade.InitUIPanelClassDic();
+
+        mUIFacade.OpenPanel(NameConfig.PanelName_GameNormalOption);
+        mUIFacade.OpenPanel(NameConfig.PanelName_GameNormalBigLevel);
     }
 
     public override void ExitScene()

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,7 +21,6 @@ public class HelpPanel : BaseUIPanel
     private ScrollRectExtension mtowerPageScroll;
     private Text mtowerPageTxt;
 
-
     public override void Awake()
     {
         base.Awake();
@@ -39,19 +39,20 @@ public class HelpPanel : BaseUIPanel
         mBtnMonster = mPanelGo.transform.Find("Btn_Monster").GetComponent<Button>();
         mBtnTower = mPanelGo.transform.Find("Btn_Tower").GetComponent<Button>();
 
-        mhelpPageScroll = mPanelGo.transform.Find("HelpPage/ScrollView").GetComponent<ScrollRectExtension>();
+        mhelpPageScroll = mPanelGo.transform.Find("HelpPage/ScrollView").GetComponentInChildren<ScrollRectExtension>(true);
         mhelpPageScroll.AddScrollValueChangedAction(OnHelpPageScrollValueChg);
         mhelpPageTxt = mPanelGo.transform.Find("HelpPage/Img_Page/Text").GetComponent<Text>();
 
-        mtowerPageScroll = mPanelGo.transform.Find("TowerPage/ScrollView").GetComponent<ScrollRectExtension>();
+        mtowerPageScroll = mPanelGo.transform.Find("TowerPage/ScrollView").GetComponentInChildren<ScrollRectExtension>(true);
         mtowerPageScroll.AddScrollValueChangedAction(OnTowerPageScrollValueChg); 
         mtowerPageTxt = mPanelGo.transform.Find("TowerPage/Img_Page/Text").GetComponent<Text>(); 
-        AddBtnsClickListener();
-
+        AddBtnsClickListener(); 
     }
     public override void __Enter()
     {
         base.__Enter();
+        
+        OnBtnHelp();
     }
 
     public override void __Update()

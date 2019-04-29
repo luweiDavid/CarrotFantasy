@@ -45,7 +45,7 @@ public class BaseFactory : IBaseFactory
         if (goPoolDic.ContainsKey(itemName))
         {
             if (goPoolDic[itemName].Count <= 0) {
-                itemGo = GetGameObjRes(itemName);
+                itemGo = InstantiateGameObjRes(itemName);
             }
             else
             {
@@ -58,12 +58,12 @@ public class BaseFactory : IBaseFactory
         }
         else {
             goPoolDic[itemName] = new Stack<GameObject>();
-            itemGo = GetGameObjRes(itemName);
-        }
+            itemGo = InstantiateGameObjRes(itemName); 
+        } 
         return itemGo;
     }
 
-    private GameObject GetGameObjRes(string itemName) {
+    private GameObject InstantiateGameObjRes(string itemName) {
         GameObject itemGo = null;
 
         string goLoadPath = prefabPath + itemName;
@@ -77,6 +77,7 @@ public class BaseFactory : IBaseFactory
         if (itemGo == null) {
             Debug.LogError("资源加载失败，路径：" + goLoadPath); 
         }
+        itemGo = GameObject.Instantiate(itemGo);
 
         return itemGo;
     }
