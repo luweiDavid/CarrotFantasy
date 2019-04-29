@@ -68,18 +68,14 @@ public class SetPanel : BaseUIPanel
         mAudioSprites[3] = mUIFacade.GetSprite(PathConfig.Sprite_SetPanel_OptionPage + "setting02-hd_11");
 
 
-        //天坑在此
+        //天坑在此， 使用数组获取
         mStatisticTexts = new Text[7];
-        for (int i = 1; i <= mStatisticTexts.Length; i++)
-        {
-            Debug.Log(i);
+        for (int i = 0; i < mStatisticTexts.Length; i++)
+        { 
             string str = "StatisticsPage/Text" + i;
-            mStatisticTexts[i] = mPanelGo.transform.Find(str).GetComponent<Text>(); 
+            mStatisticTexts[i] = mPanelGo.transform.Find(str).GetComponent<Text>();
             mStatisticTexts[i].text = "0";
-
-            //Debug.Log(mStatisticTexts[i] + "   --");
-        }
-
+        } 
     }
     public override void __Enter()
     {
@@ -107,7 +103,7 @@ public class SetPanel : BaseUIPanel
     private void OnBtnReturn()
     {
         CloseSelf();
-        //mUIFacade.OpenPanel(NameConfig.PanelName_Main);
+        mUIFacade.OpenPanel(NameConfig.PanelName_Main);
     }
     private void OnBtnOption()
     {

@@ -73,7 +73,11 @@ public class MainPanel : BaseUIPanel
         CloseSelf();
         mUIFacade.OpenPanel(NameConfig.PanelName_Set);
     }
-    private void OnBtnHelp() { }
+    private void OnBtnHelp() {
+        CloseSelf();
+        mUIFacade.OpenPanel(NameConfig.PanelName_Help);
+
+    }
     private void OnBtnExitGame() {
 #if UNITY_EDITOR
         Application.Quit();
