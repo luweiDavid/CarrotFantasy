@@ -20,22 +20,19 @@ public class GameNormalOptionPanel : BaseUIPanel
 
     public override void Awake()
     {
-        base.Awake(); 
-    }
-
-    public override void __Init()
-    {
-        base.__Init();
-
+        base.Awake();
         mBtnReturn = mPanelGo.transform.Find("Btn_Return").GetComponent<Button>();
         mBtnHelp = mPanelGo.transform.Find("Btn_Help").GetComponent<Button>();
 
         AddBtnsClickListener();
     }
+     
     public override void __Enter()
     {
         mPanelGo.SetActive(true);
     } 
+
+
     private void AddBtnsClickListener()
     {
         mBtnReturn.onClick.AddListener(OnBtnReturn);

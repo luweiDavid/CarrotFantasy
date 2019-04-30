@@ -35,12 +35,6 @@ public class SetPanel : BaseUIPanel
     public override void Awake()
     {
         base.Awake();
-    }
-
-    public override void __Init()
-    {
-        base.__Init();
-
         mOptionPageGo = mPanelGo.transform.Find("OptionPage").gameObject;
         mStatisticsPageGo = mPanelGo.transform.Find("StatisticsPage").gameObject;
         mProducerPageGo = mPanelGo.transform.Find("ProducerPage").gameObject;
@@ -70,11 +64,16 @@ public class SetPanel : BaseUIPanel
         //天坑在此， 使用数组获取
         mStatisticTexts = new Text[7];
         for (int i = 0; i < mStatisticTexts.Length; i++)
-        { 
+        {
             string str = "StatisticsPage/Text" + i;
             mStatisticTexts[i] = mPanelGo.transform.Find(str).GetComponent<Text>();
             mStatisticTexts[i].text = "0";
-        } 
+        }
+    }
+
+    public override void __Init()
+    {
+        base.__Init(); 
     } 
 
     public override void __Enter()
@@ -177,10 +176,5 @@ public class SetPanel : BaseUIPanel
     public override void __Close()
     {
         base.__Close();
-    }
-
-    public override void __Exit()
-    {
-        base.__Exit();
-    }
+    } 
 }

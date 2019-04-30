@@ -19,10 +19,6 @@ public class MainPanel : BaseUIPanel
     public override void Awake()
     {
         base.Awake();
-    }
-    public override void __Init()
-    {
-        base.__Init();
         mImgCloudTr = mPanelGo.transform.Find("Img_Cloud").GetComponent<Transform>();
         mBtnNormal = mPanelGo.transform.Find("Btn_Normal").GetComponent<Button>();
         mBtnBoss = mPanelGo.transform.Find("Btn_Boss").GetComponent<Button>();
@@ -32,8 +28,12 @@ public class MainPanel : BaseUIPanel
         mBtnExitGame = mPanelGo.transform.Find("Btn_ExitGame").GetComponent<Button>();
         AddBtnsListener();
 
-        mCarrotAnim = mPanelGo.transform.Find("Emp_Carrot").GetComponent<Animator>();
-        mCarrotAnim.Play("CarrotGrow"); 
+        mCarrotAnim = mPanelGo.transform.Find("Emp_Carrot").GetComponent<Animator>(); 
+    }
+    public override void __Init()
+    {
+        base.__Init();
+        mCarrotAnim.Play("CarrotGrow");
     }
     public override void __Enter()
     {

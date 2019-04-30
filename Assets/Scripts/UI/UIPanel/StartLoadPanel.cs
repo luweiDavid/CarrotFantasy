@@ -29,12 +29,7 @@ public class StartLoadPanel : BaseUIPanel
     public override void __Close()
     {
         base.__Close();
-    }
-
-    public override void __Exit()
-    {
-        base.__Exit();
-    }
+    } 
 
     public void LoadNextScene()
     { 

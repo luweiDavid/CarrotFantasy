@@ -27,9 +27,5 @@ public class BossModelPanel : BaseUIPanel
     {
         base.__Close();
     }
-
-    public override void __Exit()
-    {
-        base.__Exit();
-    }
+     
 }

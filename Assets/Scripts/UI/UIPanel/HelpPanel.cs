@@ -24,12 +24,6 @@ public class HelpPanel : BaseUIPanel
     public override void Awake()
     {
         base.Awake();
-    }
-
-    public override void __Init()
-    {
-        base.__Init();
-
         mHelpPageGo = mPanelGo.transform.Find("HelpPage").gameObject;
         mMonsterPageGo = mPanelGo.transform.Find("MonsterPage").gameObject;
         mTowerPageGo = mPanelGo.transform.Find("TowerPage").gameObject;
@@ -44,9 +38,15 @@ public class HelpPanel : BaseUIPanel
         mhelpPageTxt = mPanelGo.transform.Find("HelpPage/Img_Page/Text").GetComponent<Text>();
 
         mtowerPageScroll = mPanelGo.transform.Find("TowerPage/ScrollView").GetComponentInChildren<ScrollRectExtension>(true);
-        mtowerPageScroll.AddScrollValueChangedAction(OnTowerPageScrollValueChg); 
-        mtowerPageTxt = mPanelGo.transform.Find("TowerPage/Img_Page/Text").GetComponent<Text>(); 
-        AddBtnsClickListener(); 
+        mtowerPageScroll.AddScrollValueChangedAction(OnTowerPageScrollValueChg);
+        mtowerPageTxt = mPanelGo.transform.Find("TowerPage/Img_Page/Text").GetComponent<Text>();
+        AddBtnsClickListener();
+    }
+
+    public override void __Init()
+    {
+        base.__Init(); 
+        
     }
     public override void __Enter()
     {
@@ -104,10 +104,5 @@ public class HelpPanel : BaseUIPanel
     public override void __Close()
     {
         base.__Close();
-    }
-
-    public override void __Exit()
-    {
-        base.__Exit();
-    }
+    } 
 }

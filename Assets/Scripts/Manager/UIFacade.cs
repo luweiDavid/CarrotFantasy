@@ -70,7 +70,8 @@ public class UIFacade
             });
     }
 
-    public void OpenPanel(string name) { 
+    public void OpenPanel(string name) {
+        //Debug.Log(name);      
         BaseUIPanel panel = null;
         if (uiPanelClassDic.TryGetValue(name, out panel) && panel != null)
         { 
@@ -133,15 +134,19 @@ public class UIFacade
         mUIMgr.ClearPanelGoDic();
         mUIMgr.panelGoDic.Clear();
     }
-
-    /// <summary>
-    /// 实例化prefab
-    /// </summary> 
-    public GameObject GetItem(FactoryType type, string name) { 
+     
+    public GameObject GetItem(FactoryType type, string name, Transform parent = null) { 
         GameObject notInst = mGameMgr.GetItem(type, name);
         if (notInst != null)
         {
-            notInst.transform.SetParent(mUIRoot);
+            if (parent != null)
+            {
+                notInst.transform.SetParent(parent);
+            }
+            else {
+                notInst.transform.SetParent(mUIRoot);
+            }
+            
             notInst.transform.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
             notInst.transform.GetComponent<RectTransform>().localScale = Vector3.one;
         }
