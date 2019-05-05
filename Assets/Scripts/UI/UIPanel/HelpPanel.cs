@@ -92,12 +92,12 @@ public class HelpPanel : BaseUIPanel
     }
 
     private void OnHelpPageScrollValueChg(Vector2 vec2) {
-        mhelpPageTxt.text = string.Format("{0}/{1}", mhelpPageScroll.CurItemIndex + 1, mhelpPageScroll.ItemCount);
+        mhelpPageTxt.text = string.Format("{0}/{1}", mhelpPageScroll.CurItemIndex, mhelpPageScroll.ItemCount);
     }
 
     private void OnTowerPageScrollValueChg(Vector2 vec2)
     {
-        mtowerPageTxt.text = string.Format("{0}/{1}", mtowerPageScroll.CurItemIndex + 1, mtowerPageScroll.ItemCount);
+        mtowerPageTxt.text = string.Format("{0}/{1}", mtowerPageScroll.CurItemIndex, mtowerPageScroll.ItemCount);
     }
 
 

@@ -28,9 +28,9 @@ public class GameNormalBigLevelPanel : BaseUIPanel
         mContentChilds = new Transform[mTotalChildCount];
         for (int i = 0; i < mTotalChildCount; i++)
         {
-            mContentChilds[i] = mContent.GetChild(i); 
+            mContentChilds[i] = mContent.GetChild(i);   
         }
-        //SetPageStatus(); 
+        SetPageStatus(); 
     }
 
     private void SetPageStatus() {
@@ -50,15 +50,15 @@ public class GameNormalBigLevelPanel : BaseUIPanel
     /// <param name="totalNum">小关卡总数</param>
     /// <param name="itemTr">大关卡item</param>
     /// <param name="bigId">大关卡id</param>
-    private void SetPageStatus(bool isLocked,int unlockedNum,int totalNum, Transform itemTr,int bigId) {
+    private void SetPageStatus(bool unLocked,int unlockedNum,int totalNum, Transform itemTr,int bigId) {
         Transform lockTr = itemTr.Find("Img_Lock").transform;
         Transform pageTr = itemTr.Find("Img_Page").transform;
         Button itemBtn = itemTr.GetComponent<Button>();
         Text pageTxt = itemTr.Find("Img_Page/Tex_Page").GetComponent<Text>();
 
-        lockTr.gameObject.SetActive(isLocked);
-        pageTr.gameObject.SetActive(!isLocked);
-        itemBtn.interactable = !isLocked;
+        lockTr.gameObject.SetActive(!unLocked);
+        pageTr.gameObject.SetActive(unLocked);
+        itemBtn.interactable = unLocked;
         pageTxt.text = string.Format("{0}/{1}", unlockedNum, totalNum);
 
         itemBtn.onClick.RemoveAllListeners();
@@ -75,7 +75,7 @@ public class GameNormalBigLevelPanel : BaseUIPanel
 
     public override void __Enter()
     {
-        //SetPageStatus();
+        SetPageStatus();
         mPanelGo.SetActive(true);  
     }
 

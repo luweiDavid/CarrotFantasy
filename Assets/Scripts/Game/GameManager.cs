@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,11 +9,23 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector]
     public Transform GameObjectPoolTr;
+    [HideInInspector]
+    public Vector2 RefResolution;
 
     public PlayerManager playerMgr;
     public FactoryManager factoryMgr;
     public AudioManager audioMgr;
     public UIManager uiMgr;
+
+    private Stage curStage;
+    public Stage CurStage {
+        get {
+            return curStage;
+        }
+        set {
+            curStage = value;
+        }
+    }
 
     public void Awake()
     {
@@ -20,6 +33,7 @@ public class GameManager : MonoBehaviour
         
         DontDestroyOnLoad(gameObject);
         GameObjectPoolTr = transform.Find("GameObjectPool").GetComponent<Transform>();
+        RefResolution = transform.Find("UIRoot").GetComponent<CanvasScaler>().referenceResolution;
 
         playerMgr = new PlayerManager();
         factoryMgr = new FactoryManager();

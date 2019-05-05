@@ -25,13 +25,15 @@ public class UIFacade
     public UIFacade(UIManager uiMgr) {
         mGameMgr = GameManager.Instance;
         mUIMgr = uiMgr;
+        mPlayerMgr = mGameMgr.playerMgr;
+        mAudioMgr = mGameMgr.audioMgr;
 
         mUIRoot = GameObject.Find("UIRoot").GetComponent<RectTransform>();
 
         mMaskGo = GetItem(FactoryType.UI, "Img_Mask");
         mMaskImg = mMaskGo.GetComponent<Image>();
 
-        ChangeSceneState(new StartLoadSceneState(this));
+        //ChangeSceneState(new StartLoadSceneState(this));
     }
 
     public void ChangeSceneState(BaseSceneState sceneState) { 

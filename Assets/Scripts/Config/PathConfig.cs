@@ -15,9 +15,9 @@ public class PathConfig
     public const string Sprite_SetPanel_StatisticsPage = "Main/SetPanel/StatisticsPage/";
 
     public const string Sprite_GameOption_Boss = "GameOption/Boss/";
-    public const string Sprite_GameOption_Normal = "GameOption/Boss/Normal/";
-    public const string Sprite_GameOption_Normal_Big = "GameOption/Boss/Normal/BigLevel/";
-    public const string Sprite_GameOption_Normal_Level = "GameOption/Boss/Normal/Level/";
+    public const string Sprite_GameOption_Normal = "GameOption/Normal/";
+    public const string Sprite_GameOption_Normal_Big = "GameOption/Normal/BigLevel/";
+    public const string Sprite_GameOption_Normal_Level = "GameOption/Normal/Level/";
 
     public const string Sprite_MonsterNest_Monster_Baby = "MonsterNest/Monster/Baby/";
     public const string Sprite_MonsterNest_Monster_Egg = "MonsterNest/Monster/Egg/";

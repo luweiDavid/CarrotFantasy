@@ -74,18 +74,41 @@ public class ScrollRectExtension : MonoBehaviour, IBeginDragHandler, IEndDragHan
         firstItemMoveDis = leftPadding + (cellSize.x / 2);
         oneItemMoveDis = xSpacing + (cellSize.x / 2);
         contentWidth = m_contentRectTr.rect.xMax;
-
-        //下表从零开始
-        curItemIndex = 0;
+         
+        curItemIndex = 1;
         itemCount = m_contentRectTr.childCount;
 
         valueArray = new float[itemCount];
         float intervalValue = 1.0f / (itemCount - 1);
-        for (int i = 0; i < itemCount; i++)
+        for (int i = 0; i < valueArray.Length; i++)
         {
             valueArray[i] = intervalValue * i;
         } 
-    } 
+    }
+
+    /// <summary>
+    /// 动态生成item时，更新content长度，itemcount和数组
+    /// </summary>
+    public void UpdateScrollView() {
+        itemCount = m_contentRectTr.childCount;
+
+        valueArray = new float[itemCount];
+        float intervalValue = 1.0f / (itemCount - 1);
+        for (int i = 0; i < valueArray.Length; i++)
+        {
+            valueArray[i] = intervalValue * i;
+        }
+
+        if (itemCount > 1)
+        {
+            float refW = GameManager.Instance.RefResolution.x;
+            float height = m_contentRectTr.sizeDelta.y; 
+
+            float rightSpace = refW - cellSize.x - leftPadding;
+            float width = leftPadding + itemCount * cellSize.x + xSpacing * (itemCount - 1) + rightSpace; 
+            m_contentRectTr.sizeDelta = new Vector2(width - refW, height);
+        }
+    }
 
     /// <summary>
     /// 
@@ -115,12 +138,12 @@ public class ScrollRectExtension : MonoBehaviour, IBeginDragHandler, IEndDragHan
                 if ((Mathf.Abs(offset) - firstItemMoveDis) > 0)
                 {
                     int moveCount = Mathf.FloorToInt((Mathf.Abs(offset) - firstItemMoveDis) / oneItemMoveDis) + 1;
-                    if (curItemIndex > itemCount - 1)
+                    if (curItemIndex >= itemCount)
                     {
                         return;
                     }
                     curItemIndex += moveCount;
-                    curItemIndex = curItemIndex > (itemCount - 1) ? (itemCount - 1) : curItemIndex; 
+                    curItemIndex = curItemIndex >= itemCount ? itemCount : curItemIndex; 
                 } 
             }
         }
@@ -130,34 +153,34 @@ public class ScrollRectExtension : MonoBehaviour, IBeginDragHandler, IEndDragHan
                 if ((Mathf.Abs(offset) - firstItemMoveDis) > 0)
                 {
                     int moveCount = Mathf.FloorToInt((Mathf.Abs(offset) - firstItemMoveDis) / oneItemMoveDis) + 1;
-                    if (curItemIndex < 0)
+                    if (curItemIndex <= 1)
                     {
                         return;
                     }
                     curItemIndex -= moveCount;
-                    curItemIndex = curItemIndex < 0 ? 0 : curItemIndex; 
+                    curItemIndex = curItemIndex <= 1 ? 1 : curItemIndex; 
                 } 
             } 
         } 
 
         DOTween.To(()=>m_scrollRect.horizontalNormalizedPosition, lerpV => m_scrollRect.horizontalNormalizedPosition = lerpV,
-            valueArray[curItemIndex], Speed).SetEase(EaseEffect);
+            valueArray[curItemIndex-1], Speed).SetEase(EaseEffect);
     }
 
     public void MoveToNextPage() {
-        curItemIndex += 1;
-        curItemIndex = curItemIndex > (itemCount - 1) ? (itemCount - 1) : curItemIndex;
+        curItemIndex += 1; 
+        curItemIndex = curItemIndex >= itemCount ? itemCount : curItemIndex;
 
         DOTween.To(() => m_scrollRect.horizontalNormalizedPosition, lerpV => m_scrollRect.horizontalNormalizedPosition = lerpV,
-            valueArray[curItemIndex], Speed).SetEase(EaseEffect);
+            valueArray[curItemIndex-1], Speed).SetEase(EaseEffect);
     }
 
     public void MoveToPrePage() {
         curItemIndex -= 1;
-        curItemIndex = curItemIndex < 0 ? 0 : curItemIndex;
+        curItemIndex = curItemIndex <= 1 ? 1 : curItemIndex;
 
         DOTween.To(() => m_scrollRect.horizontalNormalizedPosition, lerpV => m_scrollRect.horizontalNormalizedPosition = lerpV,
-            valueArray[curItemIndex], Speed).SetEase(EaseEffect);
+            valueArray[curItemIndex-1], Speed).SetEase(EaseEffect);
     } 
 
 }

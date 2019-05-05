@@ -43,5 +43,33 @@ public class PlayerManager
         {
             bigIDLevelNumDic[i] = 5;
         }
+
+
+        //测试代码
+        bigLevelStatusList.Add(true);
+        bigLevelStatusList.Add(false);
+        bigLevelStatusList.Add(false);
+
+        //int count,bool isAllClear,int state,int levelid,int bigid,bool unlocked
+        Stage s1 = new Stage(3, false, 1, 1, 1, true);
+        levelStageList.Add(s1);
+        Stage s2 = new Stage(6, false, 2, 2, 1, false);
+        levelStageList.Add(s2);
+        Stage s3 = new Stage(7, false, 3, 3, 1, true);
+        levelStageList.Add(s3);
+        Stage s4 = new Stage(1, false, 1, 4, 1, false);
+        levelStageList.Add(s4);
+        Stage s5 = new Stage(9, false, 1, 5, 1, true);
+        levelStageList.Add(s5);
+
+
+        levelUnlockedNumList.Add(1);
+        levelTotalNumList.Add(5);
+        levelUnlockedNumList.Add(1);
+        levelTotalNumList.Add(5);
+        levelUnlockedNumList.Add(1);
+        levelTotalNumList.Add(5);   
+
+
     }
 }

@@ -39,7 +39,7 @@ public class BaseUIPanel : MonoBehaviour
         DOTween.To(() => transform.localScale, s => transform.localScale = s, Vector3.one, mTweenTime);
     }
     /// <summary>
-    /// 面板更新
+    /// 面板更新,每一帧更新
     /// </summary>
     public virtual void __Update(){ }
       

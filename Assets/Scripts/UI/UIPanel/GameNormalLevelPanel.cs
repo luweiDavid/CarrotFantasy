@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+ 
+
 public class GameNormalLevelPanel : BaseUIPanel
 {
     private int mBigId = 0;
-    private int mTotalNum = 0;
-    private int mLevelId = 0;
+    private int mTotalNum = 0; 
 
     private Image mImgLeft;
     private Image mImgRight;
@@ -17,12 +18,13 @@ public class GameNormalLevelPanel : BaseUIPanel
     private Text mWaveTxt;
 
     private ScrollRectExtension mScrollRectEx;
-    private Transform mContentTr;
+    private Transform mContentTr; 
 
-    private List<GameObject> mItemGoList;
-    private List<GameObject> mTowerGoList;
+    private Dictionary<string, GameObject> mItemGoDic;
+    private Dictionary<string, GameObject> mTowerGoDic;
 
     private PlayerManager mPlayerMgr;
+    private int mCurPageIndex;
 
 
     public override void Awake()
@@ -38,16 +40,34 @@ public class GameNormalLevelPanel : BaseUIPanel
         mScrollRectEx = mPanelGo.transform.Find("ScrollView").GetComponent<ScrollRectExtension>();
         mContentTr = mPanelGo.transform.Find("ScrollView/Viewport/Content").GetComponent<Transform>();
 
-        mItemGoList = new List<GameObject>();
-        mTowerGoList = new List<GameObject>();
+        mItemGoDic = new Dictionary<string, GameObject>();
+        mTowerGoDic = new Dictionary<string, GameObject>();
+
         mPlayerMgr = mUIFacade.mPlayerMgr;
         PreloadRes();
+        mScrollRectEx.AddScrollValueChangedAction(OnScrollValueChg);
+        mCurPageIndex = 1;
 
+        AddBtnsClickListener();
+    }
+
+    private void OnScrollValueChg(Vector2 vec2) {
+        if (mCurPageIndex != mScrollRectEx.CurItemIndex) {
+            mCurPageIndex = mScrollRectEx.CurItemIndex;
+            StartCoroutine(UpdatePanelCoroutine());
+        }
+    }
+
+    IEnumerator UpdatePanelCoroutine()
+    {
+        yield return new WaitForSeconds(0.3f);
+            
+        UpdatePanel(mCurPageIndex);
     }
 
     private void PreloadRes() {
         mUIFacade.GetSprite(PathConfig.Sprite_GameOption_Normal_Level + "AllClear");
-        for (int i = 1; i < 3; i++)
+        for (int i = 1; i <= 3; i++)
         {
             mUIFacade.GetSprite(PathConfig.Sprite_GameOption_Normal_Level + "Carrot_" + i);
         }
@@ -70,65 +90,116 @@ public class GameNormalLevelPanel : BaseUIPanel
         this.mBigId = bigId;
         this.mTotalNum = totalnum;
         __Enter();
+        UpdateItem();
+        UpdatePanel(mCurPageIndex);
     } 
 
     public override void __Enter()
     {
         mPanelGo.SetActive(true);
-
     }
 
+    /// <summary>
+    /// 初始化更新item数据， 打开界面时调用，（或者item数据有变化时，但是本项目的item在进入界面后的数据都是固定的）
+    /// </summary>
     private void UpdateItem() {
         if (mBigId <= 0) {
             return;
         }
-        for (int i = 0; i < mPlayerMgr.bigIDLevelNumDic[mBigId]; i++)
+        ClearItemGoList();
+        int curLevelItemCount = mPlayerMgr.bigIDLevelNumDic[mBigId];
+        for (int i = 1; i <= curLevelItemCount; i++)
         { 
             string levelSpritePath = PathConfig.Sprite_GameOption_Normal_Level + mBigId.ToString() + "/";
             mImgLeft.sprite = mUIFacade.GetSprite(levelSpritePath + "BG_Left");
             mImgRight.sprite = mUIFacade.GetSprite(levelSpritePath + "BG_Right");
 
-            GameObject item = mUIFacade.GetItem(FactoryType.UI, "Img_Level", mContentTr);
-            if (item) { 
-                LevelItem itemClass = item.GetComponent<LevelItem>();
+            string itemPrefabName = "Img_Level";
+            GameObject item = mUIFacade.GetItem(FactoryType.UI, itemPrefabName, mContentTr);
+            if (item) {
+                UILevelItem itemClass = item.GetComponent<UILevelItem>();
                 if (itemClass == null) {
-                    item.AddComponent<LevelItem>(); 
+                    itemClass = item.AddComponent<UILevelItem>();
                 }
-                mItemGoList.Add(item);
+                mItemGoDic.Add(itemPrefabName+i.ToString(), item);
 
-                int stageIndex = (mBigId - 1) * mPlayerMgr.bigIDLevelNumDic[mBigId] + i;
-                Stage _stage = mPlayerMgr.levelStageList[stageIndex];
-
-                mWaveTxt.text = _stage.mTotalRound.ToString();
-                int towerCount = _stage.mTowerIDListLength;
-                for (int j = 0; j < towerCount; j++)
-                {
-                    GameObject towerItem = mUIFacade.GetItem(FactoryType.UI, "Img_Tower", mEmpTowerTr);
-                    if (towerItem) {
-                        mTowerGoList.Add(towerItem);
-                        //更新tower   TODO
-                    }
-                }
-
-                if (_stage.unLocked)
-                {
-                    mImgLockTr.gameObject.SetActive(false);
-                }
-                else {
-                    mImgLockTr.gameObject.SetActive(true);
-                }
-
+                int stageIndex = (mBigId - 1) * curLevelItemCount + (i - 1);
+                Stage _stage = mPlayerMgr.levelStageList[stageIndex]; 
                 itemClass.UpdateData(_stage, mUIFacade);
             }  
+        }
+
+        //设置scroll的content长度
+        mScrollRectEx.UpdateScrollView();
+    }
+
+    /// <summary>
+    /// 回收item，每次打开界面时调用
+    /// </summary>
+    private void ClearItemGoList() {
+        if (mItemGoDic.Count > 0) {
+            foreach (string name in mItemGoDic.Keys)
+            {
+                GameObject go = mItemGoDic[name];
+                mUIFacade.PushItem(FactoryType.UI, "Img_Level", go);
+            }
+            mItemGoDic.Clear();
+        }
+    }
+
+    /// <summary>
+    /// 滑动到不同页面时更新ui
+    /// </summary>
+    /// <param name="pageIndex">第几页</param>
+    private void UpdatePanel(int pageIndex) {
+        if (mTowerGoDic.Count > 0) {
+            foreach (var name in mTowerGoDic.Keys)
+            {
+                GameObject go = mTowerGoDic[name];
+                mUIFacade.PushItem(FactoryType.UI, "Img_Tower", go);
+            }
+            mTowerGoDic.Clear();
+        }
+
+        int stageIndex = (mBigId - 1) * mPlayerMgr.bigIDLevelNumDic[mBigId] + (pageIndex - 1);
+        Stage _stage = mPlayerMgr.levelStageList[stageIndex];
+
+        mWaveTxt.text = _stage.mTotalRound.ToString();
+        int towerCount = _stage.mTowerIDListLength; 
+        for (int j = 1; j <= towerCount; j++)
+        {
+            string towerPrefabName = "Img_Tower";
+            GameObject towerItem = mUIFacade.GetItem(FactoryType.UI, towerPrefabName, mEmpTowerTr);
+            if (towerItem)
+            { 
+                mTowerGoDic.Add(towerPrefabName + j.ToString(), towerItem);
+                string towerImgPath = PathConfig.Sprite_GameOption_Normal_Level + "Tower/Tower_" + j.ToString();
+                towerItem.GetComponent<Image>().sprite = mUIFacade.GetSprite(towerImgPath);
+            }
+        }
+        if (_stage.unLocked)
+        {
+            mImgLockTr.gameObject.SetActive(false);
+        }
+        else
+        {
+            mImgLockTr.gameObject.SetActive(true);
         }
     }
 
 
-
-    public override void __Update()
+    private void AddBtnsClickListener()
     {
-        base.__Update();
-    } 
+        mBtnStart.onClick.AddListener(OnBtnStart); 
+    }
+
+    /// <summary>
+    /// 点击开始按钮需要传递的数据
+    /// </summary>
+    private void OnBtnStart() {
+
+    }
+
 
     public override void __Close()
     {
