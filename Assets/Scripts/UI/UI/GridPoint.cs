@@ -24,14 +24,13 @@ public class GridPoint : MonoBehaviour
         mMonsterSprite= Resources.Load<Sprite>("Pictures/NormalMordel/Game/startPoint");
 #if Tool
         mGridItemPrefabArray = new GameObject[10];
-        string tmpPath = "Map/Item/";
-        tmpPath += GameController.Instance.mBigId.ToString();
+        string tmpPath = "Prefabs/Game/Map/Item/";
+        tmpPath += MapMaker.Instance.mBigLevelId.ToString();
         for (int i = 0; i < mGridItemPrefabArray.Length; i++)
         {
-            mGridItemPrefabArray[i] = GameController.Instance.GetItem(tmpPath + i.ToString());
+            mGridItemPrefabArray[i] = Resources.Load<GameObject>(tmpPath + i.ToString());
         }
-#endif
-
+#endif 
         Init();
     }
 
@@ -42,7 +41,7 @@ public class GridPoint : MonoBehaviour
         mGridState.isMonsterPoint = false;
         mGridRenderer.enabled = true;
 #if Tool 
-        Destroy(mCurItem);
+        if (mCurItem) { Destroy(mCurItem); }
         mGridRenderer.sprite = mGridSprite; 
 #endif
 #if Game
@@ -135,12 +134,11 @@ public class GridPoint : MonoBehaviour
                 mGridRenderer.sprite = mGridSprite;
             }
             
-            MapMaker.Instance.mMonsterPointList.Add(mGridIndex);
+            MapMaker.Instance.mMonsterIndexList.Add(mGridIndex);
         }
         else if (Input.GetKey(KeyCode.O)) {//生成道具
             mGridState.canBuild = true;
-            mGridRenderer.sprite = mGridSprite;
-            MapMaker.Instance.mMonsterPointList.Remove(mGridIndex);
+            mGridRenderer.sprite = mGridSprite; 
 
             mGridState.itemId++;
             mGridState.itemType = GetItemType(mGridState.itemId);

@@ -32,24 +32,24 @@ public class MapMaker : MonoBehaviour
     }
     private int mColumn;
     private int mRow;
-    //private bool mDrawLine = true; 
+    private bool mDrawLine = true; 
     private GameObject mGridPrefab; 
 
     private SpriteRenderer mBgRenderer;
     private SpriteRenderer mRoadRenderer; 
-    [HideInInspector]
+
     public int mBigLevelId; 
-    [HideInInspector]
-    public int mLevelId; 
-    [HideInInspector]
-    public List<GridIndex> mMonsterPointList; 
-    private List<Vector2> mMonsterPosList; 
-    [HideInInspector]
-    public GridPoint[,] mGridPointArray;
-    [HideInInspector]
+    public int mLevelId;   
+    public List<GridIndex> mMonsterIndexList;  
     public List<RoundInfo> mRoundInfoList;
 
+    private List<Vector3> mMonsterPosList;
+    [HideInInspector]
+    public GridPoint[,] mGridPointArray;
+
+
     private GameController mGameCtrl;
+    [HideInInspector]
     public Carrot mCarrot;
 
     private void Awake()
@@ -59,6 +59,7 @@ public class MapMaker : MonoBehaviour
         mGridPrefab = Resources.Load<GameObject>("Prefabs/Game/Map/Grid");
         InitMap();
         mDrawLine = true;
+        mMonsterPosList = new List<Vector3>();
 #endif
     }
 
@@ -66,8 +67,7 @@ public class MapMaker : MonoBehaviour
         mGameCtrl = GameController.Instance;
         mColumn = 12;
         mRow = 8; 
-        mMonsterPointList = new List<GridIndex>();
-        mMonsterPosList = new List<Vector2>();
+        mMonsterIndexList = new List<GridIndex>(); 
         mBgRenderer = transform.Find("BG").GetComponent<SpriteRenderer>();
         mRoadRenderer = transform.Find("Road").GetComponent<SpriteRenderer>();
 
@@ -89,6 +89,7 @@ public class MapMaker : MonoBehaviour
                 GameObject grid = GameController.Instance.GetItem("Map/Grid");
 #endif
                 grid.transform.SetParent(transform);
+                grid.name = string.Format("({0},{1})", x, y);
                 grid.transform.localPosition = GetPos(x * mGridWidth, y * mGridHeight); 
                 mGridPointArray[x, y] = grid.GetComponent<GridPoint>();
                 mGridPointArray[x, y].mGridIndex.x = x;
@@ -139,8 +140,8 @@ public class MapMaker : MonoBehaviour
     /// <summary>
     /// 清除怪物路径点
     /// </summary>
-    public void ClearMonsterPath() {
-        mMonsterPosList.Clear();
+    public void ClearMonsterPath() { 
+        mMonsterIndexList.Clear();
     }
 
     /// <summary>
@@ -148,7 +149,7 @@ public class MapMaker : MonoBehaviour
     /// </summary>
     public void ResetGrid()
     {
-        mMonsterPosList.Clear();
+        mMonsterIndexList.Clear();
         for (int x = 0; x < mColumn; x++)
         {
             for (int y = 0; y < mRow; y++)
@@ -180,10 +181,10 @@ public class MapMaker : MonoBehaviour
         string jsonName = bigId.ToString() + "_" + levelid.ToString()+".json";
         LevelInfo info = LoadJson(jsonName);
         ReadLevelInfo(info);
-        mMonsterPosList = new List<Vector2>();
-        for (int i = 0; i < mMonsterPointList.Count; i++)
+        mMonsterPosList = new List<Vector3>(); 
+        for (int i = 0; i < mMonsterIndexList.Count; i++)
         {
-            Vector2 pos = mGridPointArray[mMonsterPointList[i].x, mMonsterPointList[i].y].transform.position;
+            Vector3 pos = mGridPointArray[mMonsterIndexList[i].x, mMonsterIndexList[i].y].transform.position;
             mMonsterPosList.Add(pos);
         }
 
@@ -193,8 +194,7 @@ public class MapMaker : MonoBehaviour
             mCarrot = carrotGo.AddComponent<Carrot>();
         }
         carrotGo.transform.localPosition = mMonsterPosList[mMonsterPosList.Count - 1];
-
-
+        
         GameObject startPointGo = GameController.Instance.GetItem("StartPoint");
         startPointGo.transform.localPosition = mMonsterPosList[0];
 
@@ -219,9 +219,10 @@ public class MapMaker : MonoBehaviour
             }
         }
         levelInfo.GridIndexList = new List<GridIndex>();
-        for (int i = 0; i < mMonsterPointList.Count; i++)
+        Debug.Log(mMonsterIndexList.Count + "    ***");
+        for (int i = 0; i < mMonsterIndexList.Count; i++)
         {
-            levelInfo.GridIndexList.Add(mMonsterPointList[i]);
+            levelInfo.GridIndexList.Add(mMonsterIndexList[i]);
         }
         levelInfo.RoundInfoList = new List<RoundInfo>();
         for (int i = 0; i < mRoundInfoList.Count; i++)
@@ -291,10 +292,10 @@ public class MapMaker : MonoBehaviour
             }
         }
 
-        mMonsterPointList.Clear();
+        mMonsterIndexList.Clear();
         for (int i = 0; i < levelInfo.GridIndexList.Count; i++)
         {
-            mMonsterPointList.Add(levelInfo.GridIndexList[i]);
+            mMonsterIndexList.Add(levelInfo.GridIndexList[i]);
         }
 
         mRoundInfoList = new List<RoundInfo>();

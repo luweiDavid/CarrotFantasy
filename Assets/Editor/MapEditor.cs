@@ -29,7 +29,7 @@ public class MapEditor : Editor
         if (index != curSelectIndex) {
             curSelectIndex = index;
 
-            mMapMaker.InitMap();
+            mMapMaker.ResetMap();
             LevelInfo _levelInfo = mMapMaker.LoadJson(fileNameArray[curSelectIndex]);
             mMapMaker.ReadLevelInfo(_levelInfo);
         }
@@ -42,7 +42,7 @@ public class MapEditor : Editor
 
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("设置地图初始状态")) {
-            mMapMaker.InitMap();
+            mMapMaker.ResetMap();
         }
 
         if (GUILayout.Button("清除怪物路径点")) {

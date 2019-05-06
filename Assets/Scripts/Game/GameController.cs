@@ -32,16 +32,15 @@ public class GameController :  MonoBehaviour
     private void Awake()
     { 
         _instance = this;
-        mBigId = 1;
-        mLevelId = 3;
-        mGameMgr = GameManager.Instance; 
+        mBigId = 2;
+        mLevelId = 2;
+        mGameMgr = GameManager.Instance;
         mMapMaker = transform.GetComponent<MapMaker>();
         mMapMaker.InitMap();
-
         //int bigId = mCurStage.mBigLevelID;
         //int levelId = mCurStage.mLevelID;
-        //mMapMaker.LoadMap(bigId, levelId);  
-        mMapMaker.LoadMap(mBigId, mLevelId); 
+        //mMapMaker.LoadMap(bigId, levelId);
+        mMapMaker.LoadMap(mBigId, mLevelId);
     }
 
 
