@@ -32,6 +32,9 @@ public class PlayerManager
 
     public int maxTowerCount = 12;
 
+    //大关卡下对应的怪物最大数
+    public int curMaxMonsterNum = 12;
+
     public PlayerManager() {
         bigLevelStatusList = new List<bool>();
         levelStageList = new List<Stage>();

@@ -36,11 +36,14 @@ public class MapMaker : MonoBehaviour
     private GameObject mGridPrefab; 
 
     private SpriteRenderer mBgRenderer;
-    private SpriteRenderer mRoadRenderer; 
-
-    public int mBigLevelId; 
-    public int mLevelId;   
-    public List<GridIndex> mMonsterIndexList;  
+    private SpriteRenderer mRoadRenderer;
+    [HideInInspector]
+    public int mBigLevelId;
+    [HideInInspector]
+    public int mLevelId;
+    [HideInInspector]
+    public List<GridIndex> mMonsterIndexList;
+    [HideInInspector]
     public List<RoundInfo> mRoundInfoList;
 
     private List<Vector3> mMonsterPosList;
@@ -109,7 +112,7 @@ public class MapMaker : MonoBehaviour
         Vector2 onePos = new Vector2(1, 1);
         Vector2 startPos = Camera.main.ViewportToWorldPoint(zeroPos);
         Vector2 endPos = Camera.main.ViewportToWorldPoint(onePos); 
-            
+         
         mMapWidth = endPos.x - startPos.x;
         mMapHeight = endPos.y - startPos.y;
 

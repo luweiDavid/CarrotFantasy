@@ -25,12 +25,46 @@ public class GameController :  MonoBehaviour
             mCurStage = value;
         }
     }
-
+    [HideInInspector]
     public int mBigId;
+    [HideInInspector]
     public int mLevelId;
 
+    public Level mCurLevel;
+    public List<int> mCurMonsterIdList;
+    public int mCurMonsterIndex;
+    public RuntimeAnimatorController[] mMonsterAnimatorArray;
+
+
+
+
+    public int curKillMonsterNum;
+    public int mCarrotHP;
+    public int mCurGameSpeed;
+    public bool mIsGamePause;
+
+    public Transform mCurTargetTr;
+    public GameObject mCurTargetSignal;
+    public int mCurClearItemNum;
+
+    public MonsterBuilder mMonsterBuilder;
+    public GridPoint mCurSelectGrid;
+
+    //key:塔id， value：价格
+    public Dictionary<int, int> mTowerPriceDic;
+
+    public GameObject mTowerBuildGo;
+
+    public GameObject mTowerLevelUpGo;
+
+    public bool mIsCreatingMonster;
+    public bool mIsGameOver;
+
+     
+
     private void Awake()
-    { 
+    {
+#if Game
         _instance = this;
         mBigId = 2;
         mLevelId = 2;
@@ -41,7 +75,20 @@ public class GameController :  MonoBehaviour
         //int levelId = mCurStage.mLevelID;
         //mMapMaker.LoadMap(bigId, levelId);
         mMapMaker.LoadMap(mBigId, mLevelId);
+
+        mMonsterAnimatorArray = new RuntimeAnimatorController[mGameMgr.playerMgr.curMaxMonsterNum];
+        for (int i = 0; i < mMonsterAnimatorArray.Length; i++)
+        {
+            mMonsterAnimatorArray[i] = GetRuntimeAnimCtrl("Monster/" + mBigId.ToString() + "/" + (i + 1).ToString());
+        }
+#endif
     }
+
+
+
+
+
+
 
 
     public Sprite GetSprite(string name) {
