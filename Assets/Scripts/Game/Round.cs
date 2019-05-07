@@ -6,29 +6,32 @@ public class Round
 {
     public RoundInfo mRoundInfo;
     private Level mLevel;
-
     public Round mNextRound;
     public int mRoundIndex;
 
-    public Round(RoundInfo info,Level _level) {
+    public Round(RoundInfo info, int roundIndex, Level _level) {
         mRoundInfo = info;
         mLevel = _level;
+        mRoundIndex = roundIndex;
     }
 
     public Round SetNextRound(Round round) {
         this.mNextRound = round;
         return round;
     }
+
     public void Handle(int index) {
         if (mRoundIndex < index)
         {
             if (mNextRound != null)
-            {
+            { 
                 mNextRound.Handle(index);
             }
         }
         else {
             //生成怪物
+            GameController.Instance.mCurMonsterIdList = mRoundInfo.MonsterIdList;
+            GameController.Instance.CreateMonster();
         }
     }
 

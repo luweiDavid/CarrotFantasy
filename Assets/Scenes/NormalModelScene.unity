@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -219,6 +219,7 @@ MonoBehaviour:
   mBigLevelId: 0
   mLevelId: 0
   mRoundInfoList: []
+  mMonsterPosList: []
   mCarrot: {fileID: 0}
 --- !u!114 &515950661
 MonoBehaviour:
@@ -239,10 +240,6 @@ MonoBehaviour:
   mCurMonsterIdList: 
   mCurMonsterIndex: 0
   mMonsterAnimatorArray: []
-  curKillMonsterNum: 0
-  mCarrotHP: 0
-  mCurGameSpeed: 0
-  mIsGamePause: 0
   mCurTargetTr: {fileID: 0}
   mCurTargetSignal: {fileID: 0}
   mCurClearItemNum: 0
@@ -251,6 +248,12 @@ MonoBehaviour:
   mTowerLevelUpGo: {fileID: 0}
   mIsCreatingMonster: 0
   mIsGameOver: 0
+  mIsGamePause: 0
+  mCurGameSpeed: 0
+  mCarrotHP: 0
+  mCurKillMonsterNum: 0
+  mCurCoinNum: 0
+  mTotalKillMonsterNum: 0
 --- !u!4 &515950662
 Transform:
   m_ObjectHideFlags: 0

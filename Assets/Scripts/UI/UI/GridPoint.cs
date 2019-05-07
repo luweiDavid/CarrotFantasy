@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class GridPoint : MonoBehaviour
 {
@@ -10,11 +12,15 @@ public class GridPoint : MonoBehaviour
     public GridIndex mGridIndex;
 
     private Sprite mGridSprite;
-    private Sprite mMonsterSprite; 
+    private Sprite mMonsterSprite;
+    private Sprite mStartSprite;    //开始时格子的图片显示
+    private Sprite mCantBuildSprite;     //禁止建塔
+
     private GameObject[] mGridItemPrefabArray;
     private GameObject mCurItem;
 
     private string mItemPath = "Map/Item/";
+    private bool mHasTower;
 
     private void Awake()
     {
@@ -30,9 +36,17 @@ public class GridPoint : MonoBehaviour
         {
             mGridItemPrefabArray[i] = Resources.Load<GameObject>(tmpPath + i.ToString());
         }
-#endif 
+#endif
+#if Game
+        mStartSprite = GameController.Instance.GetSprite("NormalMordel/Game/StartSprite");
+        mCantBuildSprite = GameController.Instance.GetSprite("NormalMordel/Game/cantBuild");
+        mGridRenderer.sprite = mStartSprite;
+        Tween t = DOTween.To(() => mGridRenderer.color, toColor => mGridRenderer.color = toColor, new Color(1, 1, 1, 0.2f), 3);
+        t.OnComplete(ResetGridSprite);
+#endif
+
         Init();
-    }
+    } 
 
     public void Init() { 
         mGridState.canBuild = true;
@@ -137,7 +151,7 @@ public class GridPoint : MonoBehaviour
             MapMaker.Instance.mMonsterIndexList.Add(mGridIndex);
         }
         else if (Input.GetKey(KeyCode.O)) {//生成道具
-            mGridState.canBuild = true;
+            mGridState.canBuild = false;
             mGridRenderer.sprite = mGridSprite; 
 
             mGridState.itemId++;
@@ -182,6 +196,59 @@ public class GridPoint : MonoBehaviour
     }
 
 #endif
+
+#if Game
+    private void OnMouseDown()
+    {
+        //选择的是UI则不发生交互
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
+        GameController.Instance.HandleGrid(this);
+    }
+
+    public void ShowGrid()
+    {
+        if (!mHasTower)
+        {
+            mGridRenderer.enabled = true;
+            //显示建塔列表
+        }
+        else
+        {
+
+        }
+    }
+
+    public void HideGrid()
+    {
+        if (!mHasTower)
+        {
+            //隐藏建塔列表
+        }
+        else
+        {
+
+        }
+        mGridRenderer.enabled = false;
+    }
+
+    //显示此格子不能够去建塔
+    public void CanNotBuildTower()
+    {
+        mGridRenderer.enabled = true;
+        Tween t = DOTween.To(() => mGridRenderer.color, toColor => mGridRenderer.color = toColor, new Color(1, 1, 1, 0), 2f);
+        t.OnComplete(() =>
+        {
+            mGridRenderer.enabled = false;
+            mGridRenderer.color = new Color(1, 1, 1, 1);
+        });
+    }
+
+#endif
+
     private ItemType GetItemType(int itemId) {
         if (itemId <= 1)
         {
@@ -193,6 +260,20 @@ public class GridPoint : MonoBehaviour
         }
         else {
             return ItemType.One;
+        }
+    } 
+    private void ResetGridSprite()
+    {
+        mGridRenderer.enabled = false;
+        mGridRenderer.color = new Color(1, 1, 1, 1);
+
+        if (mGridState.canBuild)
+        {
+            mGridRenderer.sprite = mGridSprite;
+        }
+        else
+        {
+            mGridRenderer.sprite = mCantBuildSprite;
         }
     }
 }

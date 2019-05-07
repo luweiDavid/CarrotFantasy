@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8785746751767792060}
   - component: {fileID: 8785746751767792061}
   - component: {fileID: 8785746751767792058}
+  - component: {fileID: 3155113663687298371}
   m_Layer: 0
   m_Name: CreateEffect
   m_TagString: Untagged
@@ -100,6 +101,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3155113663687298371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8785746751767792059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5843c18400cf0274a99d35b47dd55d96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationTime: 0.5
+  resourcePath: CreateEffect
 --- !u!1 &8785746751779315139
 GameObject:
   m_ObjectHideFlags: 0

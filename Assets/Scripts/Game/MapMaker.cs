@@ -46,7 +46,7 @@ public class MapMaker : MonoBehaviour
     [HideInInspector]
     public List<RoundInfo> mRoundInfoList;
 
-    private List<Vector3> mMonsterPosList;
+    public List<Vector3> mMonsterPosList;
     [HideInInspector]
     public GridPoint[,] mGridPointArray;
 

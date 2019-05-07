@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 2401452243290890240}
   - component: {fileID: 5658085952241819441}
   - component: {fileID: 2310201142522360979}
+  - component: {fileID: 7105133995620860521}
   m_Layer: 0
-  m_Name: DestoryEffect
+  m_Name: DestroyEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,3 +100,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7105133995620860521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2327672585797625565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5843c18400cf0274a99d35b47dd55d96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationTime: 0.5
+  resourcePath: DestroyEffect

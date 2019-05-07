@@ -25,6 +25,7 @@ public class MonsterBuilder : IBuilder<Monster>
         _monster.mHP = mMonsterId * 100;
         _monster.mMaxHp = mMonsterId * 100;
         _monster.mMoveSpeed = mMonsterId;
+        _monster.mInitMoveSpeed = mMonsterId;
         _monster.mPrize = mMonsterId * 50;
     }
 
