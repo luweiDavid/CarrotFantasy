@@ -17,6 +17,10 @@ public class Stage {
     public Stage(int count,bool isAllClear,int state,int levelid,int bigid,bool unlocked)
     {
         mTowerIDList = new int[count];
+        for (int i = 0; i < mTowerIDList.Length; i++)
+        {
+            mTowerIDList[i] = i + 1;
+        }
         mTowerIDListLength = count;
         mAllClear = isAllClear;
         mCarrotState = state;

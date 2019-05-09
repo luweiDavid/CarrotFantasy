@@ -39,9 +39,7 @@ public class GameController :  MonoBehaviour
     //当前关卡所有怪物的动画控制器
     public RuntimeAnimatorController[] mMonsterAnimatorArray; 
     //当前目标
-    public Transform mCurTargetTr;
-    //当前指定目标的信号
-    public GameObject mCurTargetSignal;
+    public Transform mCurTargetTr; 
     //当前清理道具的数量
     public int mCurClearItemNum; 
     //当前选择的鸽子
@@ -49,9 +47,16 @@ public class GameController :  MonoBehaviour
     //key:塔id， value：价格
     public Dictionary<int, int> mTowerPriceDic; 
     //建造塔界面
-    public GameObject mTowerBuildGo; 
+    private GameObject mTowerBuildGo; 
     //升级塔界面
-    public GameObject mTowerLevelUpGo;
+    private GameObject mTowerLevelUpGo;
+    private Transform mTowerLevelUpBtnTr;
+    private Transform mTowerLevelUpSellBtnTr;
+    private Vector3 mLevelUpBtnInitPos;
+    private Vector3 mSellBtnInitPos;
+    //当前指定目标的信号
+    public GameObject mCurTargetSignalGo;
+
 
     //是否继续生成怪物
     public bool mIsCreatingMonster; 
@@ -66,13 +71,12 @@ public class GameController :  MonoBehaviour
     //当前杀死的怪物数量
     public int mCurKillMonsterNum;
     //当前玩家的金币
-    public int mCurCoinNum;
-
+    public int mCurCoinNum; 
     //玩家的所有杀怪记录
-    public int mTotalKillMonsterNum;
-
+    public int mTotalKillMonsterNum; 
 
     public MonsterBuilder mMonsterBuilder;
+    public TowerBuilder mTowerBuilder;
 
     private void Awake()
     {
@@ -87,6 +91,16 @@ public class GameController :  MonoBehaviour
         //int levelId = mCurStage.mLevelID;
         //mMapMaker.LoadMap(bigId, levelId);
         mMapMaker.LoadMap(mBigId, mLevelId);
+        mCurStage = new Stage(3, false, 1, 1, 1, true);
+
+        mTowerPriceDic = new Dictionary<int, int>
+        {
+            { 1, 100},
+            { 2, 120},
+            { 3, 140},
+            { 4, 160},
+            { 5, 180},
+        };
 
         mMonsterAnimatorArray = new RuntimeAnimatorController[mGameMgr.playerMgr.curMaxMonsterNum];
         for (int i = 0; i < mMonsterAnimatorArray.Length; i++)
@@ -94,11 +108,24 @@ public class GameController :  MonoBehaviour
             mMonsterAnimatorArray[i] = GetRuntimeAnimCtrl("Monster/" + mBigId.ToString() + "/" + (i + 1).ToString());
         }
 
+        mTowerBuildGo = transform.Find("TowerList").gameObject;
+        mTowerLevelUpGo = transform.Find("HandleTowerCanvas").gameObject;
+        mTowerLevelUpBtnTr = mTowerLevelUpGo.transform.Find("Btn_UpLevel");
+        mTowerLevelUpSellBtnTr = mTowerLevelUpGo.transform.Find("Btn_SellTower");
+        mLevelUpBtnInitPos = mTowerLevelUpBtnTr.localPosition;
+        mSellBtnInitPos = mTowerLevelUpSellBtnTr.localPosition;
+
+        mCurTargetSignalGo = transform.Find("TargetSignal").gameObject; 
+
         mIsGamePause = false;
         mCurGameSpeed = 1;
         mMonsterBuilder = new MonsterBuilder();
+        mTowerBuilder = new TowerBuilder();
         mCurLevel = new Level(mMapMaker.mRoundInfoList.Count, mMapMaker.mRoundInfoList);
         mCurLevel.HandleRound();
+
+
+        BuildTower();
 #endif
     }
 
@@ -130,7 +157,112 @@ public class GameController :  MonoBehaviour
     public void ChangeCoin(int coin) {
         mCurCoinNum += coin;
     }
-    #region 
+
+    #region
+    public void ShowSignal()
+    {
+        mCurTargetSignalGo.transform.position = mCurTargetTr.position + new Vector3(0, mMapMaker.GridHeight / 2, 0);
+        mCurTargetSignalGo.transform.SetParent(mCurTargetTr);
+        mCurTargetSignalGo.SetActive(true);
+    }
+
+    public void HideSignal()
+    {
+        mCurTargetSignalGo.gameObject.SetActive(false);
+        mCurTargetTr = null;
+    }
+    #endregion
+
+    #region  建塔处理
+    public void BuildTower() {
+        for (int i = 0; i < mCurStage.mTowerIDList.Length; i++)
+        {
+            GameObject btnTowerGo = mGameMgr.uiMgr.mUIFacade.GetItem(FactoryType.UI, "Btn_Tower", mTowerBuildGo.transform);
+            BtnTower btnTower = btnTowerGo.GetComponent<BtnTower>();
+            if (btnTower == null) {
+                btnTower = btnTowerGo.AddComponent<BtnTower>();
+            }
+            btnTower.mTowerID = mCurStage.mTowerIDList[i]; 
+
+            //todo
+        }
+    }
+    public void SetTowerBuildGoState(GridPoint grid, bool isActive) {
+        mTowerBuildGo.transform.localPosition = AdjustTowerBuildGoPos(grid);
+        mTowerBuildGo.SetActive(isActive);
+    }
+
+    public void ChangeTowerBuildGoActiveState(bool isActive) {
+        mTowerBuildGo.SetActive(isActive);
+    }
+
+    public void SetTowerLevelUpGoState(GridPoint grid, bool isActive) {
+        mTowerLevelUpGo.transform.localPosition = grid.transform.position;
+        AdjustTowerLevelUpGoPos(grid);
+        mTowerLevelUpGo.SetActive(isActive);
+    }
+
+    public void ChangeLevelUpGoActiveState(bool isActive) {
+        mTowerLevelUpGo.SetActive(isActive);
+    }
+
+    private Vector3 AdjustTowerBuildGoPos(GridPoint grid) {
+        Vector3 adjustPos = grid.transform.localPosition;
+        if (grid.mGridIndex.x <= 3 && grid.mGridIndex.x >= 0)
+        { 
+            adjustPos += new Vector3(mMapMaker.GridWidth, 0, 0);
+        }
+        else if (grid.mGridIndex.x <= 11 && grid.mGridIndex.x >= 8)
+        {
+            adjustPos -= new Vector3(mMapMaker.GridWidth, 0, 0);
+        }
+        if (grid.mGridIndex.y <= 3 && grid.mGridIndex.y >= 0)
+        {
+            adjustPos += new Vector3(0, mMapMaker.GridHeight, 0);
+        }
+        else if (grid.mGridIndex.y <= 7 && grid.mGridIndex.y >= 4)
+        {
+            adjustPos -= new Vector3(0, mMapMaker.GridHeight, 0);
+        }
+        adjustPos += transform.position;
+        return adjustPos;
+    }
+    private void AdjustTowerLevelUpGoPos(GridPoint grid) {
+        mTowerLevelUpBtnTr.localPosition = Vector3.zero;
+        mTowerLevelUpSellBtnTr.localPosition = Vector3.zero;
+        if (grid.mGridIndex.y <= 0)
+        {
+            if (grid.mGridIndex.x == 0)
+            {
+                mTowerLevelUpSellBtnTr.position += new Vector3(mMapMaker.GridWidth * 3 / 4, 0, 0);
+            }
+            else
+            {
+                mTowerLevelUpSellBtnTr.position -= new Vector3(mMapMaker.GridWidth * 3 / 4, 0, 0);
+            }
+            mTowerLevelUpBtnTr.localPosition = mLevelUpBtnInitPos;
+        }
+        else if (grid.mGridIndex.y >= 6)
+        {
+            if (grid.mGridIndex.x == 0)
+            {
+                mTowerLevelUpBtnTr.position += new Vector3(mMapMaker.GridWidth * 3 / 4, 0, 0);
+            }
+            else
+            {
+                mTowerLevelUpBtnTr.position -= new Vector3(mMapMaker.GridWidth * 3 / 4, 0, 0);
+            }
+            mTowerLevelUpSellBtnTr.localPosition = mSellBtnInitPos;
+        }
+        else
+        {
+            mTowerLevelUpBtnTr.localPosition = mLevelUpBtnInitPos;
+            mTowerLevelUpSellBtnTr.localPosition = mSellBtnInitPos;
+        }
+    }
+    #endregion
+
+    #region   格子的处理
     public void HandleGrid(GridPoint grid)//当前选择的格子
     {
         if (grid.mGridState.canBuild)
@@ -164,7 +296,6 @@ public class GameController :  MonoBehaviour
         }
     }
     #endregion
-
 
     #region 有关怪物的逻辑 
     /// <summary>
@@ -208,8 +339,6 @@ public class GameController :  MonoBehaviour
     }
 
     #endregion
-
-      
 
     #region  资源获取
     public Sprite GetSprite(string name) {

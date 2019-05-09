@@ -171,6 +171,27 @@ public class Monster : MonoBehaviour
         }
     }
 
+    private void OnMouseDown()
+    {
+        if (mGameCtrl.mCurTargetTr == null)
+        {
+            mGameCtrl.mCurTargetTr = transform;
+            mGameCtrl.ShowSignal();
+        }
+        //转换新目标
+        else if (mGameCtrl.mCurTargetTr != transform)
+        {
+            mGameCtrl.HideSignal();
+            mGameCtrl.mCurTargetTr = transform;
+            mGameCtrl.ShowSignal();
+        }
+        //两次点击的是同一个目标
+        else if (mGameCtrl.mCurTargetTr == transform)
+        {
+            mGameCtrl.HideSignal();
+        }
+    }
+
     public void SetPeculiar() {
         mAnimator.runtimeAnimatorController = mGameCtrl.mMonsterAnimatorArray[mId - 1];
     }

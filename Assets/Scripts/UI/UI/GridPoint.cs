@@ -20,10 +20,13 @@ public class GridPoint : MonoBehaviour
     private GameObject mCurItem;
 
     private string mItemPath = "Map/Item/";
-    private bool mHasTower;
+    public bool mHasTower;
+
+    private GameController mGameCtrl;
 
     private void Awake()
     {
+        mGameCtrl = GameController.Instance;
         mGridRenderer = GetComponent<SpriteRenderer>();
 
         mGridSprite = Resources.Load<Sprite>("Pictures/NormalMordel/Game/Grid");
@@ -38,8 +41,8 @@ public class GridPoint : MonoBehaviour
         }
 #endif
 #if Game
-        mStartSprite = GameController.Instance.GetSprite("NormalMordel/Game/StartSprite");
-        mCantBuildSprite = GameController.Instance.GetSprite("NormalMordel/Game/cantBuild");
+        mStartSprite = mGameCtrl.GetSprite("NormalMordel/Game/StartSprite");
+        mCantBuildSprite = mGameCtrl.GetSprite("NormalMordel/Game/cantBuild");
         mGridRenderer.sprite = mStartSprite;
         Tween t = DOTween.To(() => mGridRenderer.color, toColor => mGridRenderer.color = toColor, new Color(1, 1, 1, 0.2f), 3);
         t.OnComplete(ResetGridSprite);
@@ -60,8 +63,8 @@ public class GridPoint : MonoBehaviour
 #endif
 #if Game
         if (mCurItem) {
-            string path = mItemPath + GameController.Instance.mBigId.ToString() + mGridState.itemId.ToString();
-            GameController.Instance.PushItem(path, mCurItem);
+            string path = mItemPath + mGameCtrl.mBigId.ToString() + mGridState.itemId.ToString();
+            mGameCtrl.PushItem(path, mCurItem);
         }
 #endif
     }
@@ -94,14 +97,14 @@ public class GridPoint : MonoBehaviour
         Vector3 createPos = transform.position;
         if (mGridState.itemType == ItemType.Four)
         {
-            createPos += new Vector3(GameController.Instance.mMapMaker.GridWidth / 2, -GameController.Instance.mMapMaker.GridHeight / 2);
+            createPos += new Vector3(mGameCtrl.mMapMaker.GridWidth / 2, -mGameCtrl.mMapMaker.GridHeight / 2);
         }
         else if (mGridState.itemType == ItemType.Two)
         {
-            createPos += new Vector3(GameController.Instance.mMapMaker.GridWidth / 2, 0);
+            createPos += new Vector3(mGameCtrl.mMapMaker.GridWidth / 2, 0);
         }
-        string path = mItemPath + GameController.Instance.mBigId.ToString() + mGridState.itemId.ToString();
-        mCurItem = GameController.Instance.GetItem(path); 
+        string path = mItemPath + mGameCtrl.mBigId.ToString() + mGridState.itemId.ToString();
+        mCurItem = mGameCtrl.GetItem(path); 
         mCurItem.transform.localPosition = createPos;
 
         Item itemClass = mCurItem.GetComponent<Item>();
@@ -205,8 +208,9 @@ public class GridPoint : MonoBehaviour
         {
             return;
         }
+        
 
-        GameController.Instance.HandleGrid(this);
+        mGameCtrl.HandleGrid(this);
     }
 
     public void ShowGrid()
@@ -215,10 +219,11 @@ public class GridPoint : MonoBehaviour
         {
             mGridRenderer.enabled = true;
             //显示建塔列表
+            mGameCtrl.SetTowerBuildGoState(this, true);
         }
         else
         {
-
+            mGameCtrl.SetTowerLevelUpGoState(this, true);
         }
     }
 
@@ -227,12 +232,17 @@ public class GridPoint : MonoBehaviour
         if (!mHasTower)
         {
             //隐藏建塔列表
+            mGameCtrl.SetTowerBuildGoState(this, false);
         }
         else
         {
-
+            mGameCtrl.SetTowerLevelUpGoState(this, false);
         }
         mGridRenderer.enabled = false;
+    }
+
+    public void AfterBuildTower() {
+
     }
 
     //显示此格子不能够去建塔
